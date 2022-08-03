@@ -1,3 +1,8 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+}
+
 .img{
     position: relative;
     width: 300px;
@@ -10,4 +15,38 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.grid-container {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    background-image: url(/assets/img/worldmap.png);
+    background-size: contain;
+}
+
+.grid-container > *{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.area-2,.area-4{
+    background: rgba(231, 226, 226, 0.98);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid black;
+}
+
+.area-2::before,.area-4::before{
+    content: "AREA LOCKED";
+    position: absolute;
+    padding: 2em;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
 }
