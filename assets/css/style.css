@@ -18,13 +18,14 @@
 }
 
 .grid-container {
-    width: 100vw;
     height: 100vh;
+    width: 100vw;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     background-image: url(/assets/img/worldmap.png);
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .grid-container > *{
@@ -59,7 +60,7 @@
 
 
 *[data-locked="true"]{
-    background: rgba(231, 226, 226, 0.98);
+    background: rgba(0, 0, 0, 0.95);
     border: 3px solid black;
 }
 
