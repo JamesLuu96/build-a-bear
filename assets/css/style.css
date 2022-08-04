@@ -23,7 +23,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    background-image: url(/assets/img/worldmap.png);
+    background-image: url(../img/worldmap.png);
     background-size: contain;
     background-repeat: no-repeat;
 }
