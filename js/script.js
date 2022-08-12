@@ -9,7 +9,7 @@ let overcoat = 0
 const imgEl = document.querySelector('.img')
 
 const baseArr = []
-for(let i = 0; i <= 4; i++){
+for(let i = 0; i <= 5; i++){
     baseArr.push(`./assets/img/base/base${i}.png`)
 }
 
@@ -163,7 +163,7 @@ const maleCombinations = [
 function buildABear(){
     const male = Math.floor(Math.random() * 2) === 0
     const results = {
-        base: Math.floor(Math.random() * 5)
+        base: Math.floor(Math.random() * 6)
     }
     if(male){
         results.clothes = maleClothes[Math.floor(Math.random() * maleClothes.length)]
@@ -191,11 +191,28 @@ function buildABear(){
 }
 
 document.querySelector(".random-button").addEventListener("click", ()=>{
-    const results = buildABear()
-    document.querySelector('.display-glasses').src = "./assets/img/glasses/glasses0.png"
-    document.querySelector('.display-base').src = `./assets/img/base/base${results.base}.png`
-    document.querySelector('.display-eyes').src = `./assets/img/eyes/eyes${results.eyes}.png`
-    document.querySelector('.display-mouth').src = `./assets/img/mouth/mouth${results.mouth}.png`
-    document.querySelector('.display-hat').src = `./assets/img/hat/hat${results.hat}.png`
-    document.querySelector('.display-clothes').src = `./assets/img/clothes/clothes${results.clothes}.png`
+    displayBear(imgEl, {...buildABear(), glasses: Math.floor(Math.random() * 13), overcoat: Math.floor(Math.random() * 10) === 0 ? Math.floor(Math.random() * 2) + 1 : 0})
 })
+
+const obj = {
+    glasses: 0,
+    base: 0,
+    eyes: 0,
+    mouth: 0,
+    hat: 0,
+    clothes: 0,
+    overcoat: 0
+}
+
+function displayBear(container, results){
+    container.querySelector('.display-glasses').src = results.glasses ? `./assets/img/glasses/glasses${results.glasses}.png` : `./assets/img/glasses/glasses0.png`
+    container.querySelector('.display-base').src = results.base ? `./assets/img/base/base${results.base}.png` : `./assets/img/base/base0.png`
+    container.querySelector('.display-eyes').src = results.eyes ? `./assets/img/eyes/eyes${results.eyes}.png` : `./assets/img/eyes/eyes0.png`
+    container.querySelector('.display-mouth').src = results.mouth ? `./assets/img/mouth/mouth${results.mouth}.png` : `./assets/img/mouth/mouth0.png`
+    container.querySelector('.display-hat').src = (!results.hat || results.overcoat) ? `./assets/img/hat/hat0.png` : `./assets/img/hat/hat${results.hat}.png`
+    container.querySelector('.display-clothes').src = (!results.hat || results.overcoat) ? `./assets/img/clothes/clothes0.png` : `./assets/img/clothes/clothes${results.clothes}.png`
+    container.querySelector('.display-overcoat').src = results.overcoat ? `./assets/img/overcoat/overcoat${results.overcoat}.png` : `./assets/img/overcoat/overcoat0.png`
+
+}
+
+

@@ -5,15 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beartopia</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/new.css">
 </head>
 <body>
-    <div class="grid-container">
-        <div class="area-1" data-locked="false" data-area="MOUNTAINS"></div>
-        <div class="area-2" data-locked="true" data-area="CITY"></div>
-        <div class="area-3" data-locked="false" data-area="FOREST"></div>
-        <div class="area-4" data-locked="true" data-area="BEACH"></div>
+    <div class="game-container">
+        <canvas class="game-canvas" width="352px" height="198px"></canvas>
     </div>
-    <script src="./js/main.js"></script>
+
+    <script src="Battle.js"></script>
+    <script src="Overworld.js"></script>
+    <script src="init.js"></script>
+    <!-- <script src="./js/main.js"></script> -->
 </body>
 </html>

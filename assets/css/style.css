@@ -1,6 +1,15 @@
 *, *::after, *::before {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .img{
@@ -17,50 +26,28 @@
     object-fit: contain;
 }
 
-.grid-container {
-    height: 100vh;
-    width: 100vw;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    background-image: url(../img/worldmap.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.grid-container > *{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.ul{
     display: flex;
-    align-items: center;
     justify-content: center;
-    position: relative;
+    align-items: center;
+    width: 100vw;
 }
 
-*[data-area]::after {
-    content: attr(data-area);
-    background: white;
-    padding: 1em;
-    border-radius: 15px;
-}
-
-*[data-area]:hover::after  {
-    cursor: pointer;
-}
-
-*[data-locked="true"]::before{
-    content: "AREA LOCKED";
+p {
+    font-size: 2em;
+    font-weight: bold;
+    animation: fadeIn 2.5s;
     position: absolute;
-    padding: 2em;
-    background-color: white;
-    border: 2px solid black;
-    border-radius: 10px;
+    bottom: 550px;
 }
 
 
-*[data-locked="true"]{
-    background: rgba(0, 0, 0, 0.95);
-    border: 3px solid black;
+
+
+
+@keyframes fadeIn {
+    0% { opacity: 0; bottom: 450px;}
+    100% { opacity: 1; bottom: 550px;}
 }
+
 
