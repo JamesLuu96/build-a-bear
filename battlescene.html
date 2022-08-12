@@ -12,7 +12,7 @@
     <div class="Battle">
         <p class="Battle-text">Choose your action:</p>
         <div class="Battle_player">
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="1">
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="100%">
                         <div class="bear-hp-percent" data-bear-hp="100/100" width="50%"></div>
@@ -21,6 +21,9 @@
                 </div>
                 <div class="bear-mp-bar">
                     <div class="bear-mp-percent" data-bear-mp="10/10"></div>
+                </div>
+                <div class="bear-stats">
+                    <p>Jimmy</p>
                 </div>
                 <div class="bear">
                     <img src="./assets/img/base/base5.png" alt="" class="display-base">
@@ -31,12 +34,8 @@
                     <img src="./assets/img/clothes/clothes36.png" alt="" class="display-clothes">
                     <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
                 </div>
-                <div class="bear-stats">
-                    <p>Jimmy</p>
-                    
-                </div>
             </div>
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="2">
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="80%">
                         <div class="bear-hp-percent" data-bear-hp="100/100" width="50%"></div>
@@ -60,7 +59,7 @@
                     
                 </div>
             </div>
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="3">
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="100%">
                         <div class="bear-hp-percent" data-bear-hp="100/100" width="50%"></div>
@@ -111,8 +110,8 @@
                         <p class="skill-name">Restore</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/block.png" alt=""></div>
-                        <p class="skill-name">Block</p>
+                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/wind-slash.png" alt=""></div>
+                        <p class="skill-name">Wind Slash</p>
                     </div>
                     <div data-inactive="false" class="skill">
                         <div data-mp-cost="2"><img src="./assets/img/skills/spit.png" alt=""></div>
@@ -132,7 +131,7 @@
         </div>
 
         <div class="Battle_enemy">
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="4">
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="100%">
                         <div class="bear-hp-percent" data-bear-hp="100/100" width="50%" data-bear-hp="100/100"></div>
@@ -156,10 +155,10 @@
                     
                 </div>
             </div>
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="5">
                 <div class="bear-hp-bar">
-                    <div class="bear-hp-left" width="100%">
-                        <div class="bear-hp-percent" data-bear-hp="100/100" width="50%"></div>
+                    <div class="bear-hp-left" style="width: 100%;">
+                        <div class="bear-hp-percent" data-bear-hp="100/100" style="width: 100%;"></div>
                         <div class="bear-shield-percent" width="50%"></div>
                     </div>
                 </div>
@@ -180,7 +179,7 @@
                     
                 </div>
             </div>
-            <div class="bear-container">
+            <div class="bear-container" data-combatant="6">
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="100%">
                         <div class="bear-hp-percent" data-bear-hp="100/100" width="50%"></div>
