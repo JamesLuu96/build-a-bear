@@ -1,43 +1,55 @@
 class Battle {
     constructor() {
       this.combatants = {
-        player: [
+        players: [
           new Combatant({
             level: 1,
             maxHp: 100,
             hp: 100,
-            maxMp: 100,
-            mp: 100,
+            maxMp: 10,
+            mp: 10,
+            shield: 5,
             name: "Jimmy",
-            characterSprite: new Sprite({clothes: 36})
+            strength: 1,
+            agility: 1,
+            intelligence: 1,
+            characterSprite: new Sprite({clothes: 36, base: 5, glasses: 6})
           }, this)
         ],
-        enemy: [
+        enemies: [
           new Combatant({
             level: 1,
             maxHp: 100,
             hp: 100,
-            maxMp: 100,
-            mp: 100,
-            name: "Naruto",
-            characterSprite: new Sprite({hat: 29})
+            maxMp: 10,
+            mp: 10,
+            shield: 0,
+            name: "Sanchez",
+            strength: 1,
+            agility: 1,
+            intelligence: 1,
+            characterSprite: new Sprite({hat: 9, base: 2, eyes: 10, clothes: 25})
           }, this),
           new Combatant({
             level: 1,
             maxHp: 100,
             hp: 100,
-            maxMp: 100,
-            mp: 100,
+            maxMp: 10,
+            mp: 10,
+            shield: 0,
             name: "Naruto",
-            characterSprite: new Sprite({hat: 29})
+            strength: 1,
+            agility: 1,
+            intelligence: 1,
+            characterSprite: new Sprite({hat: 29, base: 2, eyes: 14, clothes: 35})
           }, this)
         ]
       }
 
-      this.activeCombatants = {
-        player: this.combatants.player,
-        enemy: this.combatants.enemy
-      }
+      // this.activeCombatants = {
+      //   player: this.combatants.player,
+      //   enemy: this.combatants.enemy
+      // }
     }
     
   
@@ -47,6 +59,7 @@ class Battle {
       this.element.innerHTML = (`
         <div class="Battle_player"></div>
         <div class="Battle_enemy"></div>
+        <p class="Battle-text">Choose your action:</p>
       `)
     }
     
@@ -55,26 +68,26 @@ class Battle {
       this.createElement();
       container.appendChild(this.element);
   
-      this.combatants.player.forEach((combatant, i) => {
+      this.combatants.players.forEach((combatant, i) => {
         combatant.id = i + 1;
         combatant.init(this.element.querySelector('.Battle_player'))
       })
 
-      this.combatants.enemy.forEach((combatant, i) => {
+      this.combatants.enemies.forEach((combatant, i) => {
         combatant.id = i + 4;
         combatant.init(this.element.querySelector('.Battle_enemy'))
       })
       
-      // this.turnCycle = new TurnCycle({
-      //   battle: this,
-      //   onNewEvent: event => {
-      //     return new Promise(resolve => {
-      //       const battleEvent = new BattleEvent(event, this)
-      //       battleEvent.init(resolve);
-      //     })
-      //   }
-      // })
-      // this.turnCycle.init();
+      this.turnCycle = new TurnCycle({
+        battle: this,
+        onNewEvent: event => {
+          return new Promise(resolve => {
+            const battleEvent = new BattleEvent(event, this)
+            battleEvent.init(resolve);
+          })
+        }
+      })
+      this.turnCycle.init();
   
   
     }

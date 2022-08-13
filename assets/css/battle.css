@@ -97,6 +97,14 @@ body{
     height: 60px;
 }
 
+.inactive{
+    -webkit-filter: brightness(20%);
+}
+
+.enraged-buff{
+    filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%);
+}
+
 /* HP Fields */
 
 /* bear-hp-bar */
@@ -125,12 +133,18 @@ body{
     /* width: 90%; */
     height: 100%;
     background-color: green;
+    
 }
 
 .bear-hp-percent::after{
     content: attr(data-bear-hp);
     position: absolute;
-    left: 20px;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: fit-content;
+    
 }
 
 .Battle_enemy .bear-hp-percent{

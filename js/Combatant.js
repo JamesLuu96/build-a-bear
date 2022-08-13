@@ -7,12 +7,25 @@ class Combatant {
     }
   
     get hpPercent() {
-      const percent = this.hp / this.maxHp * 100;
+      const percent = (this.hp - this.shield) / this.hp * 100
+      return percent > 0 ? percent : 0;
+    }
+
+    get shieldPercent() {
+      const percent = this.shield / this.hp * 100;
+      return percent > 0 ? percent : 0;
+    }
+
+    get totalHpPercent() {
+      if(this.hp + this.shield >= this.maxHp){
+        return 100
+      }
+      const percent = (this.hp + this.shield) / this.maxHp * 100
       return percent > 0 ? percent : 0;
     }
   
-    get xpPercent() {
-      return this.xp / this.maxXp * 100;
+    get mpPercent() {
+      return this.mp / this.maxMp * 100;
     }
   
     get isActive() {
@@ -20,10 +33,10 @@ class Combatant {
     }
   
     createElement() {
-      this.hudElement = document.createElement("div");
-      this.hudElement.classList.add("bear-container");
-      this.hudElement.setAttribute("data-combatant", this.id);
-      this.hudElement.innerHTML = (`
+      this.combatantElement = document.createElement("div");
+      this.combatantElement.classList.add("bear-container");
+      this.combatantElement.setAttribute("data-combatant", this.id);
+      this.combatantElement.innerHTML = (`
       <div class="bear-hp-bar">
       <div class="bear-hp-left" style="width: 100%;">
           <div class="bear-hp-percent" data-bear-hp="100/100" style="width: 100%;"></div>
@@ -37,15 +50,17 @@ class Combatant {
           <p>${this.name}</p>
       </div>
       `);
-  
-      this.pizzaElement = document.createElement("img");
-      this.pizzaElement.classList.add("Pizza");
-      this.pizzaElement.setAttribute("src", this.src );
-      this.pizzaElement.setAttribute("alt", this.name );
-      this.pizzaElement.setAttribute("data-team", this.team );
-  
-      this.hpFills = this.hudElement.querySelectorAll(".Combatant_life-container > rect");
-      this.xpFills = this.hudElement.querySelectorAll(".Combatant_xp-container > rect");
+      
+      this.combatantSprite = document.createElement("div")
+      this.combatantSprite.classList.add("bear")
+      console.log(this)
+      this.characterSprite.drawBear(this.combatantSprite)
+      this.combatantElement.appendChild(this.combatantSprite)
+
+      this.totalHpBar = this.combatantElement.querySelector(".bear-hp-left");
+      this.hpBar = this.combatantElement.querySelector(".bear-hp-percent");
+      this.shieldBar = this.combatantElement.querySelector(".bear-shield-percent");
+      this.mpBar = this.combatantElement.querySelector(".bear-mp-percent");
     }
   
     update(changes={}) {
@@ -55,25 +70,29 @@ class Combatant {
       });
   
       //Update active flag to show the correct pizza & hud
-      this.hudElement.setAttribute("data-active", this.isActive);
-      this.pizzaElement.setAttribute("data-active", this.isActive);
+      // this.combatantElement.setAttribute("data-active", this.isActive);
   
       //Update HP & XP percent fills
-      this.hpFills.forEach(rect => rect.style.width = `${this.hpPercent}%`)
-      this.xpFills.forEach(rect => rect.style.width = `${this.xpPercent}%`)
+      this.totalHpBar.style.width = `${this.totalHpPercent}%`
+      this.hpBar.style.width = `${this.hpPercent}%`
+      this.shieldBar.style.width = `${this.shieldPercent}%`
+      this.mpBar.style.width = `${this.mpPercent}%`
+      this.hpBar.setAttribute('data-bear-hp', `${this.hp}/${this.maxHp}${this.shield ? `(${this.shield})` : ""}`)
+      this.mpBar.setAttribute('data-bear-mp', `${this.mp}/${this.maxMp}`)
+
   
       //Update level on screen
-      this.hudElement.querySelector(".Combatant_level").innerText = this.level;
+      // this.combatantElement.querySelector(".Combatant_level").innerText = this.level;
   
       //Update status
-      const statusElement = this.hudElement.querySelector(".Combatant_status");
-      if (this.status) {
-        statusElement.innerText = this.status.type;
-        statusElement.style.display = "block";
-      } else {
-        statusElement.innerText = "";
-        statusElement.style.display = "none";
-      }
+      // const statusElement = this.combatantElement.querySelector(".Combatant_status");
+      // if (this.status) {
+      //   statusElement.innerText = this.status.type;
+      //   statusElement.style.display = "block";
+      // } else {
+      //   statusElement.innerText = "";
+      //   statusElement.style.display = "none";
+      // }
     }
   
     getReplacedEvents(originalEvents) {
@@ -115,8 +134,7 @@ class Combatant {
   
     init(container) {
       this.createElement();
-      container.appendChild(this.hudElement);
-      container.appendChild(this.pizzaElement);
+      container.appendChild(this.combatantElement);
       this.update();
     }
   

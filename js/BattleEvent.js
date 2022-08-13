@@ -63,6 +63,10 @@ class BattleEvent {
       target.pizzaElement.classList.remove("battle-damage-blink");
       resolve();
     }
+
+    movesMenu(resolve) {
+      
+    }
   
     submissionMenu(resolve) {
       const {caster} = this.event;
