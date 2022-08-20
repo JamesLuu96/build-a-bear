@@ -1,0 +1,65 @@
+.buffs{
+    position: absolute;
+    display: flex;
+    height: 10px;
+    width: 60px;
+    bottom: -20px;
+    left: 0;
+    justify-content: center;
+    gap: 1px;
+}
+
+.bear-container[data-combatant="1"] .buffs, .bear-container[data-combatant="4"] .buffs{
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 10px;
+    height: 60px;
+    right: -11px;
+    bottom: 0;
+    left: auto;
+}
+
+.bear-container[data-combatant="4"] .buffs{
+    right: auto;
+    left: -11px;
+}
+
+
+
+
+.buffs > div{
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(173, 165, 165, 0.404);
+    border-radius: 2px;
+    display: flex;
+}
+
+.buffs > div img{
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+}
+
+.buffs > div[data-timer]::after{
+    content: attr(data-timer);
+    position: absolute;
+    font-size: 5px;
+    color: white;
+    bottom: 0;
+    right: 1px;
+}
+
+
+.enraged-buff{
+    filter: none;
+    animation: fadeInBuff 1s;
+    opacity: 1;
+}
+
+@keyframes fadeInBuff {
+    0% {opacity: 0; filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%);}
+    50% {opacity: 1; filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%);}
+    0% {opacity: 1; filter: none}
+}

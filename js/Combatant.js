@@ -1,18 +1,47 @@
 class Combatant {
     constructor(config, battle) {
+      this.mp = 5 + (config.intelligence * 2) + (config.level * 5)
+      this.hp = 30 + (config.vitality * 2) + (config.level * 5)
+      this.shield = 0
+      this.xp = 0
       Object.keys(config).forEach(key => {
         this[key] = config[key];
       })
+      if(this.level === undefined){
+        this.level = 1
+      }
+      this.maxXp = this.xpMax
+      this.maxHp = 30 + (this.vitality * 2) + (this.level * 5)
+      this.maxMp = 5 + (config.intelligence * 2) + (config.level * 5)
+      this.status = {}
       this.battle = battle;
+      this.statPoints = this.level * 5
+      this.xpGainedFromWinning = (this.level * 5.5) + 8
+    }
+
+    // get xpMin() {
+    //   const num = Math.pow(this.level / .3, 2)
+    //   return Math.round(num * 100) / 100
+    // }
+
+    get xpMax() {
+      const num = Math.pow((this.level + 1) / .3, 2)
+      return Math.round(num * 100) / 100
+    }
+
+    get xpPercent() {
+      const percent = (this.xp / this.xpMax) * 100
+      return percent > 0 ? percent : 0;
     }
   
     get hpPercent() {
-      const percent = (this.hp - this.shield) / this.hp * 100
+      const percent = this.hp / (this.hp + this.shield) * 100
       return percent > 0 ? percent : 0;
     }
 
     get shieldPercent() {
-      const percent = this.shield / this.hp * 100;
+      // console.log(this.name, this.shield)
+      const percent = this.shield / (this.hp + this.shield) * 100;
       return percent > 0 ? percent : 0;
     }
 
@@ -31,12 +60,117 @@ class Combatant {
     get isActive() {
       return this.battle.activeCombatants[this.team] === this.id;
     }
+
+    levelUp(){
+      this.update({level: this.level + 1, hp: this.maxHp, mp: this.maxMp})
+      this.statPoints += 5
+      this.xp = 0
+    }
+
+    async giveXp(amount) {
+      await new Promise(resolve=>{
+        amount = Math.round(amount)
+        const step = async () => {
+          if (amount > 0) {
+            amount -= 1;
+            this.xp += 1;
+            
+            //Check if we've hit level up point
+            if (this.xp >= this.maxXp) {
+              this.levelUp()
+              const pEl = document.createElement('p')
+              pEl.classList.add('damage')
+              pEl.textContent = "Level Up!"
+              pEl.style.color = 'yellow'
+              pEl.addEventListener('animationend', ()=>{
+                pEl.remove()
+              }, {once: true})
+              this.combatantElement.appendChild(pEl)
+            }
+            
+            this.update()
+            // await wait(40)
+            requestAnimationFrame(step);
+            return;
+          }
+          resolve();
+        }
+        requestAnimationFrame(step);
+      })
+    }
+
+    // async giveXp(amount){
+    //   await new Promise(resolve=>{
+    //     const step = async ()=>{
+    //       amount--
+    //       this.xp++
+    //       if (this.xp >= this.maxXp) {
+    //         this.levelUp()
+    //         const pEl = document.createElement('p')
+    //         pEl.classList.add('damage')
+    //         pEl.textContent = "Level Up!"
+    //         pEl.style.color = 'yellow'
+    //         pEl.addEventListener('animationend', ()=>{
+    //           pEl.remove()
+    //         }, {once: true})
+    //         this.combatantElement.appendChild(pEl)
+    //       }
+    //       this.update()
+    //       await wait(60)
+    //       if(amount > 0){
+    //         step()
+    //       }else{
+    //         resolve()
+    //       }
+    //     }
+    //     step()
+    //   })
+    // }
+
+    addStatus(status){
+      if(!this.status[status.name]){
+        const statusDivEl = document.createElement('div')
+        statusDivEl.classList.add(status.className)
+        statusDivEl.innerHTML = `<img src="./assets/img/skills/content/status/${status.img}.png" alt="">`
+        this.combatantElement.querySelector('.buffs').appendChild(statusDivEl)
+      }
+      this.status[status.name] = {
+        className: status.className,
+        newlyApplied: status.newlyApplied ? true : false,
+        duration: status.duration,
+        persistent: status.persistent
+      }
+      this.combatantElement.querySelector(`.buffs .${status.className}`).setAttribute("data-timer", status.duration)
+    }
+
+    decrementStatus(status){
+      if(this.status[status].newlyApplied){
+        this.status[status].newlyApplied = false
+        return
+      }
+      this.status[status].duration--
+      if(this.status[status].duration === 0){
+        this.deleteStatus(status)
+      }else{
+        this.combatantElement.querySelector(`.buffs .${this.status[status].className}`).setAttribute("data-timer", this.status[status].duration)
+      }
+    }
+
+    deleteStatus(status){
+      this.combatantElement.querySelector(`.buffs .${this.status[status].className}`).remove()
+      delete this.status[status]
+    }
   
     createElement() {
       this.combatantElement = document.createElement("div");
       this.combatantElement.classList.add("bear-container");
       this.combatantElement.setAttribute("data-combatant", this.id);
       this.combatantElement.innerHTML = (`
+      <div class="bear-level-container" data-level="${this.level}">
+          <div class="bear-xp-bar">
+              <div class="bear-xp-percent" style="width: 20%;"></div>
+          </div>
+      </div>
       <div class="bear-hp-bar">
       <div class="bear-hp-left" style="width: 100%;">
           <div class="bear-hp-percent" data-bear-hp="100/100" style="width: 100%;"></div>
@@ -49,11 +183,15 @@ class Combatant {
       <div class="bear-stats">
           <p>${this.name}</p>
       </div>
+      <div class="buffs"></div>
       `);
       
       this.combatantSprite = document.createElement("div")
       this.combatantSprite.classList.add("bear")
-      console.log(this)
+      if(this.hp <= 0){
+        this.combatantSprite.classList.add("inactive")
+      }
+      // console.log(this)
       this.characterSprite.drawBear(this.combatantSprite)
       this.combatantElement.appendChild(this.combatantSprite)
 
@@ -61,6 +199,93 @@ class Combatant {
       this.hpBar = this.combatantElement.querySelector(".bear-hp-percent");
       this.shieldBar = this.combatantElement.querySelector(".bear-shield-percent");
       this.mpBar = this.combatantElement.querySelector(".bear-mp-percent");
+      this.xpBar = this.combatantElement.querySelector(".bear-xp-percent");
+      this.levelEl = this.combatantElement.querySelector('.bear-level-container')
+    }
+
+    takeDamage(damage){
+      const diff = damage - this.shield
+      if(diff < 0){
+        this.update({shield: diff * - 1})
+      }else{
+        this.update({shield: 0, hp: Math.max(0, this.hp - diff)})
+      }
+    }
+
+    async startDamage(config){
+      let {caster, damage, color, hitTime} = config
+      if(typeof damage === "number"){
+        if(caster.status.rage){
+          damage = Math.ceil(damage * 1.50)
+        }
+        this.takeDamage(damage)
+        await document.querySelector(':root').style.setProperty('--hitPositionX', `${this.id > 3 ? 20: -20}%`)
+        await document.querySelector(':root').style.setProperty('--hitRotate', `${this.id > 3 ? 10: -10}deg`)
+        await document.querySelector(':root').style.setProperty('--hitTime', hitTime ? hitTime : '.5s')
+        if(config.classNames){
+          this.combatantElement.querySelector(`.bear`).classList.add(...config.classNames)
+          this.combatantElement.querySelector(`.bear`).addEventListener('animationend', ()=>{
+            this.combatantElement.querySelector(`.bear`).classList.remove(...config.classNames)
+          }, {once: true})
+        }else{
+          this.combatantElement.querySelector(`.bear`).classList.add("hit")
+          this.combatantElement.querySelector(`.bear`).addEventListener('animationend', ()=>{
+            this.combatantElement.querySelector(`.bear`).classList.remove("hit")
+          }, {once: true})
+        }
+      }
+      const pEl = document.createElement('p')
+      pEl.classList.add('damage')
+      pEl.textContent = damage
+      if(color) pEl.style.color = 'orange'
+      pEl.addEventListener('animationend', ()=>{
+        pEl.remove()
+      }, {once: true})
+      this.combatantElement.appendChild(pEl)
+    }
+
+    healDamage(heal){
+      this.update({hp: Math.min(this.maxHp, this.hp + heal)})
+    }
+
+    useMana(mana){
+      this.update({mp: Math.max(0, this.mp - mana)})
+    }
+
+    gainMana(mana){
+      this.update({mp: Math.min(this.maxMp, this.mp + mana)})
+    }
+
+    async startHealing(config){
+      let {caster, heal, color, hitTime} = config
+      if(typeof heal === "number"){
+        if(caster.status.healer){
+          heal += 5
+        }
+        this.healDamage(heal)
+        await document.querySelector(':root').style.setProperty('--hitPositionX', `${this.id > 3 ? 20: -20}%`)
+        await document.querySelector(':root').style.setProperty('--hitRotate', `${this.id > 3 ? 10: -10}deg`)
+        await document.querySelector(':root').style.setProperty('--hitTime', hitTime ? hitTime : '.5s')
+        if(config.classNames){
+          this.combatantElement.querySelector(`.bear`).classList.add(...config.classNames)
+          this.combatantElement.querySelector(`.bear`).addEventListener('animationend', ()=>{
+            this.combatantElement.querySelector(`.bear`).classList.remove(...config.classNames)
+          }, {once: true})
+        }else{
+          this.combatantElement.querySelector(`.bear`).classList.add("hit")
+          this.combatantElement.querySelector(`.bear`).addEventListener('animationend', ()=>{
+            this.combatantElement.querySelector(`.bear`).classList.remove("hit")
+          }, {once: true})
+        }
+      }
+      const pEl = document.createElement('p')
+      pEl.classList.add('damage')
+      pEl.textContent = heal
+      if(color) pEl.style.color = 'orange'
+      pEl.addEventListener('animationend', ()=>{
+        pEl.remove()
+      }, {once: true})
+      this.combatantElement.appendChild(pEl)
     }
   
     update(changes={}) {
@@ -69,69 +294,49 @@ class Combatant {
         this[key] = changes[key]
       });
   
-      //Update active flag to show the correct pizza & hud
-      // this.combatantElement.setAttribute("data-active", this.isActive);
-  
-      //Update HP & XP percent fills
+      const newHp = 30 + (this.vitality * 2) + (this.level * 5)
+      if(newHp !== this.maxHp){
+        if(newHp > this.maxHp){
+          const diff = newHp - this.maxHp
+          this.maxHp = newHp
+          this.hp = this.hp + diff
+        }else{
+          this.maxHp = newHp
+          if(this.hp > this.maxHp){
+            this.hp = this.maxHp
+          }
+        }
+      }
+      const newMp = 5 + (this.intelligence * 2) + (this.level * 5)
+      if(newMp !== this.maxMp){
+        if(newMp > this.maxMp){
+          const diff = newMp - this.maxMp
+          this.maxMp = newMp
+          this.mp = this.mp + diff
+        }else{
+          this.maxMp = newMp
+          if(this.mp > this.maxMp){
+            this.mp = this.maxMp
+          }
+        }
+      }
       this.totalHpBar.style.width = `${this.totalHpPercent}%`
       this.hpBar.style.width = `${this.hpPercent}%`
       this.shieldBar.style.width = `${this.shieldPercent}%`
       this.mpBar.style.width = `${this.mpPercent}%`
+      this.xpBar.style.width = `${this.xpPercent}%`
       this.hpBar.setAttribute('data-bear-hp', `${this.hp}/${this.maxHp}${this.shield ? `(${this.shield})` : ""}`)
       this.mpBar.setAttribute('data-bear-mp', `${this.mp}/${this.maxMp}`)
+      this.levelEl.setAttribute('data-level', this.level)
+      this.maxXp = this.xpMax
 
-  
-      //Update level on screen
-      // this.combatantElement.querySelector(".Combatant_level").innerText = this.level;
-  
-      //Update status
-      // const statusElement = this.combatantElement.querySelector(".Combatant_status");
-      // if (this.status) {
-      //   statusElement.innerText = this.status.type;
-      //   statusElement.style.display = "block";
-      // } else {
-      //   statusElement.innerText = "";
-      //   statusElement.style.display = "none";
-      // }
-    }
-  
-    getReplacedEvents(originalEvents) {
-  
-      if (this.status?.type === "clumsy" && utils.randomFromArray([true, false, false])) {
-        return [
-          { type: "textMessage", text: `${this.name} flops over!` },
-        ]
+      if(this.hp <= 0){
+        this.combatantElement.querySelector('.bear').classList.add('inactive')
+      }else{
+        this.combatantElement.querySelector('.bear').classList.remove('inactive')
       }
-  
-      return originalEvents;
     }
-  
-    getPostEvents() {
-      if (this.status?.type === "saucy") {
-        return [
-          { type: "textMessage", text: "Feelin' saucy!" },
-          { type: "stateChange", recover: 5, onCaster: true }
-        ]
-      } 
-      return [];
-    }
-  
-    decrementStatus() {
-      if (this.status?.expiresIn > 0) {
-        this.status.expiresIn -= 1;
-        if (this.status.expiresIn === 0) {
-          this.update({
-            status: null
-          })
-          return {
-            type: "textMessage",
-            text: "Status expired!"
-          }
-        }
-      }
-      return null;
-    }
-  
+
     init(container) {
       this.createElement();
       container.appendChild(this.combatantElement);

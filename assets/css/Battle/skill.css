@@ -1,0 +1,90 @@
+
+.skills-container{
+    font-size: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 150px;
+    height: 80px;
+}
+
+.skill div{
+    margin: 4px;
+    outline: 2px ridge rgb(221, 218, 218);
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.skill div:hover{
+    cursor: pointer;
+    outline: 2px ridge rgb(161, 159, 159);
+}
+
+.skill img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.skill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 6px;
+    width: 30px;
+    text-align: center;
+    position: relative;
+}
+
+.skill-name{
+    display: flex;
+    flex-wrap: wrap;
+    display: inline-block;
+}
+
+
+
+.skill .skill-name[data-mp-cost]::after {
+    content: ' (' attr(data-mp-cost) ')';
+    font-size: 4px;
+    color: rgb(0, 255, 242);
+}
+
+.skill[data-mp] .skill-name[data-mp-cost]::after{
+    color: red;
+}
+
+
+.skill[data-cooldown] div::after{
+    content: attr(data-onCooldownFor) ' turn(s)';
+    position: absolute;
+}
+
+.skill[data-inactive="true"] div::before{
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 24px;
+    height: 24px;
+    background-color: rgba(24, 23, 23, 0.596); /* Tint color */
+    background-blend-mode: multiply;
+}
+
+
+.skill[data-inactive="true"] div:hover{
+    cursor: default;
+    outline: 2px ridge rgb(221, 218, 218);
+}
+
+.skill[data-inactive="true"] .skill-name{
+    color: rgb(196, 189, 189);
+}

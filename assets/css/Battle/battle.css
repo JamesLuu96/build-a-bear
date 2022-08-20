@@ -1,0 +1,107 @@
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    overflow: hidden;
+    background-color: #333;
+}
+
+.game-container{
+    position: relative;
+    width: 352px;
+    height: 198px;
+    outline: 1px solid white;
+    margin: 0 auto;
+    margin-top: 20px;
+    transform: scale(3) translateY(50%);
+}
+
+.Battle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-image: url(/assets/img/forest.png);
+    background-size: cover;
+    background-color: rgba(24, 23, 23, 0.5); /* Tint color */
+    background-blend-mode: multiply;
+}
+
+.Battle_player .bear-container[data-combatant="1"]{
+    left: 90px;
+    top: 30px;
+}
+
+.Battle_player .bear-container[data-combatant="2"]{
+    left: 5px;
+    top: 5px;
+}
+
+.Battle_player .bear-container[data-combatant="3"]{
+    left: 5px;
+    bottom: 35px;
+}
+
+.Battle_enemy .bear-container[data-combatant="4"]{
+    right: 90px;
+    top: 30px;
+}
+
+.Battle_enemy .bear-container[data-combatant="5"]{
+    right: 5px;
+    top: 5px;
+}
+
+.Battle_enemy .bear-container[data-combatant="6"]{
+    right: 5px;
+    bottom: 35px;
+}
+
+.Battle-text {
+    color: white;
+    text-align: center;
+    font-size: 12px;
+    text-shadow: 1px 1px black;
+}
+
+
+
+.inactive{
+    -webkit-filter: brightness(20%);
+}
+
+.action-menu{
+    /* background: grey; */
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /* bottom: 8px;
+    left: 101px; */
+    bottom: 7%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.action-menu button {
+    font-size: 10px;
+    
+}
+
+.Battle .damage{
+    position: absolute;
+    bottom: 65px;
+    right: -45px;
+    animation: fadeIn 2.5s;
+    opacity: 0;
+    width: 150px;
+    /* background-color: white; */
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px black;
+    transform: scale(1.5);
+    z-index: 300;
+}

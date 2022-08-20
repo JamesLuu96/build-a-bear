@@ -5,14 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/battle.css">
+    <link rel="stylesheet" href="./assets/css/Battle/battle.css">
+    <link rel="stylesheet" href="./assets/css/Battle/skill-animations.css">
+    <link rel="stylesheet" href="./assets/css/Battle/bear.css">
+    <link rel="stylesheet" href="./assets/css/Battle/buffs.css">
+    <link rel="stylesheet" href="./assets/css/Battle/skill.css">
+    <link rel="stylesheet" href="./assets/css/Battle/skill-select.css">
 </head>
 <body>
     <div class="game-container">
     <div class="Battle">
-        <p class="Battle-text">Choose your action:</p>
+        <p class="Battle-text">Select target(s)</p>
         <div class="Battle_player">
             <div class="bear-container" data-combatant="1">
+                <div class="bear-level-container" data-level="99">
+                    <div class="bear-xp-bar">
+                        <div class="bear-xp-percent" style="width: 30%;"></div>
+                    </div>
+                </div>
                 <div class="bear-hp-bar">
                     <div class="bear-hp-left" width="100%">
                         <div class="bear-hp-percent" data-bear-hp="100/100"  style="width: 100%;"></div>
@@ -20,12 +30,13 @@
                     </div>
                 </div>
                 <div class="bear-mp-bar">
-                    <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
+                    <div class="bear-mp-percent" data-bear-mp="10/10" style="width: 100%;"></div>
                 </div>
+                
                 <div class="bear-stats">
                     <p>Jimmy</p>
                 </div>
-                <div class="bear">
+                <div class="bear hit">
                     <img src="./assets/img/base/base5.png" alt="" class="display-base">
                     <img src="./assets/img/eyes/eyes0.png" alt="" class="display-eyes">
                     <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
@@ -45,7 +56,7 @@
                 <div class="bear-mp-bar">
                     <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
                 </div>
-                <div class="bear">
+                <div class="bear hit">
                     <img src="./assets/img/base/base3.png" alt="" class="display-base">
                     <img src="./assets/img/eyes/eyes15.png" alt="" class="display-eyes">
                     <img src="./assets/img/mouth/mouth15.png" alt="" class="display-mouth">
@@ -58,6 +69,7 @@
                     <p>Jordan</p>
                     
                 </div>
+                
             </div>
             <div class="bear-container" data-combatant="3">
                 <div class="bear-hp-bar">
@@ -81,129 +93,185 @@
                 <div class="bear-stats">
                     <p>Timmy</p>
                 </div>
+                
             </div>
 
+            <div class="Battle_enemy">
+                <div class="bear-container" data-combatant="4">
+                    <div class="bear-hp-bar">
+                        <div class="bear-hp-left" width="100%">
+                            <div class="bear-hp-percent" data-bear-hp="100/100"  style="width: 100%;" data-bear-hp="100/100"></div>
+                            <div class="bear-shield-percent"  style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="bear-mp-bar">
+                        <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
+                    </div>
+                    <div class="bear inactive">
+                        <img src="./assets/img/base/base2.png" alt="" class="display-base">
+                        <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
+                        <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
+                        <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
+                        <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
+                        <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
+                        <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
+                    </div>
+                    <div class="bear-stats">
+                        <p>Naruto</p>
+                        
+                    </div>
+                    <div class="buffs">
+                        <div class="buff-enraged">
+                            <img src="./assets/img/skills/content/status/enrage.png" alt="">
+                        </div>
+                        <div data-timer="2">
+                            <img src="./assets/img/skills/content/status/enrage.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="bear-container" data-combatant="5" target-selected="false">
+                    <div class="bear-hp-bar">
+                        <div class="bear-hp-left" style="width: 100%;">
+                            <div class="bear-hp-percent" data-bear-hp="100/100" style="width: 100%;"></div>
+                            <div class="bear-shield-percent"  style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="bear-mp-bar">
+                        <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
+                    </div>
+                    <div class="bear">
+                        <img src="./assets/img/base/base2.png" alt="" class="display-base">
+                        <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
+                        <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
+                        <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
+                        <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
+                        <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
+                        <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
+                    </div>
+                    <div class="bear-stats">
+                        <p>Naruto</p>
+                        
+                    </div>
+                </div>
+                <div class="bear-container" data-combatant="6" target-selected="true">
+                    <div class="bear-hp-bar">
+                        <div class="bear-hp-left" width="100%">
+                            <div class="bear-hp-percent" data-bear-hp="100/100"  style="width: 100%;"></div>
+                            <div class="bear-shield-percent"  style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    <div class="bear-mp-bar">
+                        <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
+                    </div>
+                    <div class="bear">
+                        <img src="./assets/img/base/base2.png" alt="" class="display-base">
+                        <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
+                        <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
+                        <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
+                        <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
+                        <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
+                        <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
+                    </div>
+                    <div class="bear-stats">
+                        <p>Naruto</p>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- <div class="action-menu">
+                <div class="skills-container skills-select">
+                    <div>
+                        <div class="skill">
+                            <div class="skill-img"><img src="./assets/img/skills/punch.png" alt=""></div>
+                        </div>
+                    </div>
+                    <div class="skill-select-organizer">
+                        <div class="skill-select-attr">
+                            <div>
+                                <div class="skill-select-title">
+                                    <h1>Name:</h1>
+                                    <p>Punch</p>
+                                </div>
+                                <div class="skill-select-title">
+                                    <h1>Damage:</h1>
+                                    <p>10</p>
+                                </div>
+                                <div class="skill-select-title">
+                                    <h1>Target:</h1>
+                                    <p>Auto</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="skill-select-title">
+                                    <h1>Cooldown:</h1>
+                                    <p>1 turn</p>
+                                </div>
+                                <div class="skill-select-title">
+                                    <h1>Mana:</h1>
+                                    <p>20</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-select-desc">
+                            <h1>Description:</h1>
+                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime quod iusto odio enim voluptate?</p>
+                        </div>
+                        <div class="skill-select-button-container">
+                            <button class="back-button">Back</button>
+                            <button class="confirm-button" data-inactive="false">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <div class="action-menu">
                 <div class="skills-container">
                     <div data-inactive="false" class="skill">
                         <div><img src="./assets/img/skills/punch.png" alt=""></div>
                         <p class="skill-name">Punch</p>
                     </div>
-                    <div data-inactive="true" class="skill">
-                        <div data-cooldown="2" data-onCooldownFor="10" data-mp-cost="2"><img src="./assets/img/skills/unholy-slash.png" alt=""></div>
-                        <p class="skill-name">Unholy Strike</p>                     
+                    <div data-inactive="true" data-cooldown="true" class="skill">
+                        <div data-onCooldownFor="10"><img src="./assets/img/skills/unholy-slash.png" alt=""></div>
+                        <p data-mp-cost="10" class="skill-name">Unholy Strike!!!!!!</p>                     
                     </div>
-                    <div data-inactive="true" class="skill">
-                        <div data-cooldown="2" data-onCooldownFor="4" data-mp-cost="2"><img src="./assets/img/skills/lightning-slash.png" alt=""></div>
-                        <p class="skill-name">Lightning Strike</p>
-                    </div>
-                    <div data-inactive="false" class="skill">
-                        <div data-mp-cost="2"><img src="./assets/img/skills/roar.png" alt=""></div>
-                        <p class="skill-name">Roar</p>
+                    <div data-inactive="true" class="skill" data-mp="false">
+                        <div data-onCooldownFor="4"><img src="./assets/img/skills/lightning-slash.png" alt=""></div>
+                        <p data-mp-cost="5" class="skill-name">Lightning Strike</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/bandaid.png" alt=""></div>
-                        <p class="skill-name">Heal</p>
+                        <div><img src="./assets/img/skills/roar.png" alt=""></div>
+                        <p data-mp-cost="3" class="skill-name">Roar</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-mp-cost="2"><img src="./assets/img/skills/heal.png" alt=""></div>
-                        <p class="skill-name">Restore</p>
+                        <div><img src="./assets/img/skills/bandaid.png" alt=""></div>
+                        <p data-mp-cost="4" class="skill-name">Heal</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/wind-slash.png" alt=""></div>
-                        <p class="skill-name">Wind Slash</p>
+                        <div><img src="./assets/img/skills/heal.png" alt=""></div>
+                        <p data-mp-cost="4" class="skill-name">Restore</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-mp-cost="2"><img src="./assets/img/skills/spit.png" alt=""></div>
-                        <p class="skill-name">Spit</p>
+                        <div><img src="./assets/img/skills/wind-slash.png" alt=""></div>
+                        <p data-mp-cost="2" class="skill-name">Unholy Strike!</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/iceshards.png" alt=""></div>
-                        <p class="skill-name">Ice Shard</p>
+                        <div><img src="./assets/img/skills/spit.png" alt=""></div>
+                        <p data-mp-cost="2" class="skill-name">Spit</p>
                     </div>
                     <div data-inactive="false" class="skill">
-                        <div data-cooldown="2" data-mp-cost="2"><img src="./assets/img/skills/block.png" alt=""></div>
-                        <p class="skill-name">Block</p>
+                        <div><img src="./assets/img/skills/iceshards.png" alt=""></div>
+                        <p data-mp-cost="2" class="skill-name">Ice Shard</p>
+                    </div>
+                    <div data-inactive="false" class="skill">
+                        <div><img src="./assets/img/skills/block.png" alt=""></div>
+                        <p data-mp-cost="2" class="skill-name">Block</p>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <div class="Battle_enemy">
-            <div class="bear-container" data-combatant="4">
-                <div class="bear-hp-bar">
-                    <div class="bear-hp-left" width="100%">
-                        <div class="bear-hp-percent" data-bear-hp="100/100"  style="width: 100%;" data-bear-hp="100/100"></div>
-                        <div class="bear-shield-percent"  style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="bear-mp-bar">
-                    <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
-                </div>
-                <div class="bear">
-                    <img src="./assets/img/base/base2.png" alt="" class="display-base">
-                    <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
-                    <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
-                    <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
-                    <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
-                    <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
-                    <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
-                </div>
-                <div class="bear-stats">
-                    <p>Naruto</p>
-                    
-                </div>
-            </div>
-            <div class="bear-container" data-combatant="5">
-                <div class="bear-hp-bar">
-                    <div class="bear-hp-left" style="width: 100%;">
-                        <div class="bear-hp-percent" data-bear-hp="100/100" style="width: 100%;"></div>
-                        <div class="bear-shield-percent"  style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="bear-mp-bar">
-                    <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
-                </div>
-                <div class="bear">
-                    <img src="./assets/img/base/base2.png" alt="" class="display-base">
-                    <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
-                    <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
-                    <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
-                    <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
-                    <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
-                    <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
-                </div>
-                <div class="bear-stats">
-                    <p>Naruto</p>
-                    
-                </div>
-            </div>
-            <div class="bear-container" data-combatant="6">
-                <div class="bear-hp-bar">
-                    <div class="bear-hp-left" width="100%">
-                        <div class="bear-hp-percent" data-bear-hp="100/100"  style="width: 100%;"></div>
-                        <div class="bear-shield-percent"  style="width: 0%;"></div>
-                    </div>
-                </div>
-                <div class="bear-mp-bar">
-                    <div class="bear-mp-percent" data-bear-mp="10/10"  style="width: 100%;"></div>
-                </div>
-                <div class="bear">
-                    <img src="./assets/img/base/base2.png" alt="" class="display-base">
-                    <img src="./assets/img/eyes/eyes10.png" alt="" class="display-eyes">
-                    <img src="./assets/img/mouth/mouth0.png" alt="" class="display-mouth">
-                    <img src="./assets/img/glasses/glasses0.png" alt="" class="display-glasses">
-                    <img src="./assets/img/hat/hat29.png" alt="" class="display-hat">
-                    <img src="./assets/img/clothes/clothes25.png" alt="" class="display-clothes">
-                    <img src="./assets/img/overcoat/overcoat0.png" alt="" class="display-overcoat">
-                </div>
-                <div class="bear-stats">
-                    <p>Naruto</p>
-                    
-                </div>
-            </div>
-        </div>
+        
 
     </div>
 

@@ -2,24 +2,74 @@ function singleTarget(combatants){
     return combatants.enemies.filter(enemy=>enemy.hp > 0)
 }
 
+const availableProperties = {
+    name: "Test",
+    icon: "test",
+    skillName: "test",
+    targetAmount: 3,
+    auto: true,
+    mpCost: 5,
+    cooldown: 5,
+    friendly: true,
+    targetDead: true,
+    description: "",
+    damageFunction: function(combatant){},
+    healing: 10,
+    duration: 10,
+    noTargetSelf: true
+}
+
 window.Actions = {
-    punch: {
+    punchAction: {
         name: "Punch",
-        icon: "punch.png",
-        cooldown: 0,
-        mpCost: 0,
-        damage: function(combatant){
-            return {min: Math.floor(combatant.strength / 2) + (combatant.level * 2) + 3, max: Math.floor(combatant.strength / 2) + (combatant.level * 2) + 5}
-        },
-        target: 1,
-        targetFilter: singleTarget
+        icon: "punch",
+        skillName: "punchAction",
+        targetAmount: 1,
+        description: 'A basic attack that deals damage.',
+        damageFunction: combatant => Math.round(combatant.strength / 3) + 5
     },
-    arrowStorm: {
+    arrowStormAction: {
         name: "Arrow Storm",
-        icon: ".png",
+        icon: "arrowstorm",
+        skillName: "arrowstormAction",
+        cooldown: 1,
+        mpCost: 3,
+        targetAmount: 3,
+        auto: true,
+        description: `Rains 3-4 arrows randomly on your enemies.`
+    },
+    slashAction: {
+        name: "Slash",
+        skillName: "slashAction",
+        targetAmount: 2,
         cooldown: 3,
-        mpCost: 5,
-        target: 0,
-        targetFilter: []
+        icon: "slash",
+        description: 'A Powerful strike of a sword.'
+    },
+    roarAction: {
+        name: "Roar",
+        skillName: "roarAction",
+        targetAmount: 3,
+        friendly: true,
+        duration: 2,
+        cooldown: 4,
+        mpCost: 3,
+        icon: "roar",
+        auto: true,
+        description: "Grants all teammates and self a buff that increases your attack by 50%."
+    },
+    healAction: {
+        name: "Heal",
+        skillName: "healAction",
+        targetAmount: 1,
+        friendly: true,
+        icon: "heal"
+    },
+    reviveAction: {
+        name: "Revive",
+        skillName: "reviveAction",
+        targetAmount: 1,
+        friendly: true,
+        targetDead: true
     }
 }

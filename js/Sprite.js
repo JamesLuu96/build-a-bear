@@ -7,7 +7,7 @@ class Sprite{
     }
 
     drawBear(container){
-        console.log(this.sprite)
+        // console.log(this.sprite)
         container.innerHTML = `
         <img src="./assets/img/base/base${this.sprite.base ? this.sprite.base : '0'}.png" alt="" class="display-base">
         <img src="./assets/img/eyes/eyes${this.sprite.eyes ? this.sprite.eyes : '0'}.png" alt="" class="display-eyes">

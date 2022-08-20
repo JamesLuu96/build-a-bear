@@ -1,0 +1,192 @@
+:root{
+    --positionX: -460%;
+    --positionY: -180%;
+    --positionRotate: 10deg;
+    --hitPositionX: 0%;
+    --hitRotate: 0%;
+    --hitTime: .5s;
+    --positionX0: -460%;
+    --position0: -180%;
+    --positionRotat0: 10deg;
+    --positionX1: -460%;
+    --positionY1: -180%;
+    --positionRotate1: 10deg;
+    --positionX2: -460%;
+    --positionY2: -180%;
+    --positionRotate2: 10deg;
+}
+
+.arrow img{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.arrow-attack0{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow0 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate0));
+}
+
+.arrow-attack1{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow1 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate1));
+}
+
+.arrow-attack2{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow2 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate2));
+}
+
+.arrow-attack-reverse0{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow-reverse0 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate0)) scaleX(-1);
+}
+
+.arrow-attack-reverse1{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow-reverse1 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate1)) scaleX(-1);
+}
+
+.arrow-attack-reverse2{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-arrow-reverse2 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate2)) scaleX(-1);
+}
+
+@keyframes attack-arrow0 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate0)); opacity: 1; }
+    80% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+@keyframes attack-arrow-reverse0 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate0)) scaleX(-1); opacity: 1; }
+    80% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)) scaleX(-1); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)) scaleX(-1); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+@keyframes attack-arrow1 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate1)); opacity: 1; }
+    80% {transform: translate3d(var(--positionX1), var(--positionY1),0) rotate(var(--positionRotate1)); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX1), var(--positionY1),0) rotate(var(--positionRotate1)); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+@keyframes attack-arrow-reverse1 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate1)) scaleX(-1); opacity: 1; }
+    80% {transform: translate3d(var(--positionX1), var(--positionY1),0) rotate(var(--positionRotate1)) scaleX(-1); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX1), var(--positionY1),0) rotate(var(--positionRotate1)) scaleX(-1); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+@keyframes attack-arrow2 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate2)); opacity: 1; }
+    80% {transform: translate3d(var(--positionX2), var(--positionY2),0) rotate(var(--positionRotate2)); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX2), var(--positionY2),0) rotate(var(--positionRotate2)); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+@keyframes attack-arrow-reverse2 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate2)) scaleX(-1); opacity: 1; }
+    80% {transform: translate3d(var(--positionX2), var(--positionY2),0) rotate(var(--positionRotate2)) scaleX(-1); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX2), var(--positionY2),0) rotate(var(--positionRotate2)) scaleX(-1); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+
+.animation-slash::after {
+    content:'';
+    position: absolute;
+    left: 24px;
+    top: 10px;
+    transform:rotate(45deg) scaleX(0);
+    width: 3px;
+    height: 60px;
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(192, 191, 191);
+    border-radius: 10px;
+    z-index: 300;
+    animation: slash 1s;
+}
+
+
+@keyframes slash {
+    0% {transform:rotate(45deg) scaleX(0);}
+    50% {transform:rotate(45deg) scaleX(1);}
+    100% {transform:rotate(45deg) scaleX(0);}
+}
+
+.animation-attack {
+    animation: attack .7s;
+    z-index: 999;
+}
+
+@keyframes attack {
+    0% {transform: translate3d(0,0,0)}
+    50% {transform: translate3d(var(--positionX), var(--positionY),0)}
+    100% {transform: translate3d(0,0,0)}
+}
+
+.animation-bounce {
+    animation: bounce .5s;
+    z-index: 999;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
+    40% {transform: translateY(-5px);} 
+    60% {transform: translateY(-5px);} 
+} 
+
+@keyframes fadeIn {
+    0% { opacity: 0; bottom: 35px; transform: scale(0);}
+    25% {transform: scale(1)}
+    50% { opacity: 1; bottom: 50px; transform: scale(1)}
+    100% { opacity: 0; bottom: 65px; transform: scale(1.5)}
+}
+
+@keyframes hit {
+    0% {transform: translate3d(0,0,0) rotate(0deg)}
+    50% {transform: translate3d(var(--hitPositionX),0,0) rotate(var(--hitRotate)); opacity: .83; }
+    100% {transform: translate3d(0,0,0)}
+}
+
+.hit{
+    animation: hit var(--hitTime);
+}
