@@ -7,6 +7,12 @@ class Action{
         this.cooldownTimer = 0
     }
 
+    get damage(){
+        if(this.damageFunction){
+            return this.damageFunction(this.caster)
+        }
+    }
+
     onCooldown(){
         return this.cooldownTimer > 0
     }
@@ -68,21 +74,28 @@ class Action{
             if(this.mpCost){
                 this.caster.useMana(this.mpCost)
             }
-            await this[this.skillName]()
+            await this.resolveAction()
             resolve()
         }
     }
 
+}
 
+class PunchAction extends Action{
+    constructor(config, battle){
+        super(config, battle)
+    }
 
-    async punchAction(){
+    async resolveAction(){
         for(let i = 0; i < this.target.length; i++){
             const target = this.target[i]
             if(target.hp <= 0 || this.caster.hp <= 0){
                 continue
             }
-            await document.querySelector(':root').style.setProperty('--positionX', `${PositionsPunch[this.caster.id][target.id][0]}%`)
-            await document.querySelector(':root').style.setProperty('--positionY', `${PositionsPunch[this.caster.id][target.id][1]}%`)
+            const x = target.DOMProperties.x - this.caster.DOMProperties.x
+            const y = target.DOMProperties.y - this.caster.DOMProperties.y
+            await document.querySelector(':root').style.setProperty('--positionX', `${x}px`)
+            await document.querySelector(':root').style.setProperty('--positionY', `${y}px`)
 
             this.battle.element.querySelector(`.bear-container[data-combatant="${this.caster.id}"] .bear`).classList.add(`animation-attack`)
             this.battle.element.querySelector(`.bear-container[data-combatant="${this.caster.id}"] .bear`).addEventListener('animationend', ()=>{
@@ -90,24 +103,32 @@ class Action{
             }, {once: true})
             await wait(300)
             const miss = Math.floor(Math.random() * 50)
-            let damage = Math.floor(Math.random() * (10 - 8) + 8)
+            let damage = Math.floor(Math.random() * ((this.damage + 2) - (this.damage - 2)) + (this.damage - 2))
             if(miss === 0){
                 damage = "Missed!"
             }
             await target.startDamage({caster: this.caster, damage, hitTime: '.5s'})            
-            await wait(500)
+            await wait(600)
         }
     }
+}
 
-    async slashAction(){
+class SlashAction extends Action{
+    constructor(config, battle){
+        super(config, battle)
+    }
+
+    async resolveAction(){
         for(let i = 0; i < this.target.length; i++){
             const target = this.target[i]
             if(target.hp <= 0 || this.caster.hp <= 0){
                 continue
             }
+            const x = target.DOMProperties.x - this.caster.DOMProperties.x
+            const y = target.DOMProperties.y - this.caster.DOMProperties.y
             // console.log(target.id)
-            await document.querySelector(':root').style.setProperty('--positionX', `${PositionsPunch[this.caster.id][target.id][0]}%`)
-            await document.querySelector(':root').style.setProperty('--positionY', `${PositionsPunch[this.caster.id][target.id][1]}%`)
+            await document.querySelector(':root').style.setProperty('--positionX', `${x}px`)
+            await document.querySelector(':root').style.setProperty('--positionY', `${y}px`)
 
             this.battle.element.querySelector(`.bear-container[data-combatant="${this.caster.id}"] .bear`).classList.add(`animation-attack`)
             this.battle.element.querySelector(`.bear-container[data-combatant="${this.caster.id}"] .bear`).addEventListener('animationend', ()=>{
@@ -115,7 +136,7 @@ class Action{
             }, {once: true})
             await wait(300)
             const miss = Math.floor(Math.random() * 50)
-            let damage = Math.floor(Math.random() * (20 - 18) + 18)
+            let damage = Math.floor(Math.random() * ((this.damage + 2) - (this.damage - 2)) + (this.damage - 2))
             if(miss === 0){
                 damage = "Missed!"
             }
@@ -123,8 +144,14 @@ class Action{
             await wait(500)
         }
     }
+}
 
-    async arrowstormAction(){
+class ArrowStormAction extends Action{
+    constructor(config, battle){
+        super(config, battle)
+    }
+
+    async resolveAction(){
         let j = 0
         const amount = Math.floor(Math.random() * 5)
         for(let i = 0; i < (amount === 0 ? 4 : 3); i++){
@@ -133,18 +160,21 @@ class Action{
             if(!target){
                 return
             }
+            const x = target.DOMProperties.x - this.caster.DOMProperties.x
+            const y = target.DOMProperties.y - this.caster.DOMProperties.y
+            const angle = Math.atan(y/x) * (180/Math.PI)
             const arrowEl = document.createElement('div')
             this.battle.element.querySelector(`.bear-container[data-combatant="${this.caster.id}"]`).appendChild(arrowEl)
-            await document.querySelector(':root').style.setProperty(`--positionX${j}`, `${PositionsArrow[this.caster.id][target.id][0]}%`)
-            await document.querySelector(':root').style.setProperty(`--positionY${j}`, `${PositionsArrow[this.caster.id][target.id][1]}%`)
-            await document.querySelector(':root').style.setProperty(`--positionRotate${j}`, `${PositionsArrow[this.caster.id][target.id][2]}deg`)
+            await document.querySelector(':root').style.setProperty(`--positionX${j}`, `${x}px`)
+            await document.querySelector(':root').style.setProperty(`--positionY${j}`, `${y}px`)
+            await document.querySelector(':root').style.setProperty(`--positionRotate${j}`, `${angle}deg`)
             arrowEl.classList.add(this.caster.id < 4 ? `arrow-attack${j}` : `arrow-attack-reverse${j}`, 'arrow')
             arrowEl.innerHTML = `<img src="./assets/img/skills/content/arrow${Math.floor(Math.random() * 2) + 1}.png" alt="">`
             arrowEl.addEventListener('animationend', ()=>{
                 arrowEl.remove()
             }, {once: true})
             await wait(300)
-            let damage = Math.floor(Math.random() * (8 - 3) + 3)
+            let damage = Math.floor(Math.random() * (this.damage - (this.damage - 3)) + (this.damage - 3))
             if(Math.floor(Math.random() * 50) === 0){
                 damage = "Missed!"
             }
@@ -153,12 +183,14 @@ class Action{
         }
         await wait(1000)
     }
+}
 
-    async healAction(){
-
+class RoarAction extends Action{
+    constructor(config, battle){
+        super(config, battle)
     }
 
-    async roarAction(){
+    async resolveAction(){
         const filteredTargets = this.target.filter(p=>p.hp > 0)
         for(let i = 0; i < filteredTargets.length; i++){
             this.battle.element.querySelector(`.bear-container[data-combatant="${filteredTargets[i].id}"] .bear`).classList.add('animation-bounce')
@@ -183,8 +215,8 @@ class Action{
                 statusObj.newlyApplied = true
             }
             filteredTargets[i].addStatus(statusObj)
+            filteredTargets[i].addStatus({name: "burn", className: "buff-one-attack", persistent: true, img: "enrage", duration: 0})
         }
         await wait(1000)
     }
-
 }

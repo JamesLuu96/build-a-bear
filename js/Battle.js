@@ -3,36 +3,36 @@ class Battle {
       this.combatants = {
         players: [
           new Combatant({
-            level: 10,
+            level: 20,
             name: "Tony",
-            vitality: 50,
-            strength: 0,
-            agility: 0,
+            vitality:100,
+            strength: 75,
+            agility: 75,
             intelligence: 0,
             isCPUControlled: false,
             actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
             characterSprite: new Sprite({clothes: 36, base: 5, glasses: 6})
           }, this),
           // new Combatant({
-          //   level: 0,
-          //   name: "Jimmy",
+          //   level: 1,
+          //   name: "Cindy",
           //   vitality: 0,
           //   strength: 0,
           //   agility: 0,
-          //   hp: 1,
-          //   mp: 2,
+          //   // hp: 10,
+          //   // mp: 3,
           //   intelligence: 0,
           //   isCPUControlled: true,
           //   actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
-          //   characterSprite: new Sprite({clothes: 33, base: 2, glasses: 7})
+          //   characterSprite: new Sprite({hat: 4, clothes: 11, base: 2, glasses: 3, mouth: 8})
           // }, this),
           // new Combatant({
-          //   level: 0,
-          //   name: "Jimmy",
+          //   level: 1,
+          //   name: "Timmy",
           //   vitality: 0,
           //   strength: 0,
           //   agility: 0,
-          //   hp: 1,
+          //   // hp: 10,
           //   intelligence: 0,
           //   isCPUControlled: true,
           //   actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
@@ -42,41 +42,41 @@ class Battle {
         enemies: [
           new Combatant({
             level: 15,
-            mp: 1,
+            // mp: 1,
             name: "Sanchez",
-            hp: 1,
+            // hp: 1,
             vitality: 0,
             strength: 0,
             agility: 0,
             intelligence: 0,
             isCPUControlled: true,
-            actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
+            actions: [{...Actions.punchAction}],
             characterSprite: new Sprite({hat: 9, base: 2, eyes: 10, clothes: 25})
           }, this),
           new Combatant({
-            level: 12,
-            name: "Naruto",
-            hp: 1,
+            level: 8,
+            name: "Justin",
+            // hp: 1,
             vitality: 0,
             strength: 0,
             agility: 0,
             intelligence: 0,
+            actions: [{...Actions.punchAction}],
             isCPUControlled: true,
-            actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
-            characterSprite: new Sprite({hat: 29, base: 2, eyes: 14, clothes: 35})
+            characterSprite: new Sprite({hat: 26, base: 2, eyes: 14, clothes: 23, mouth: 10})
           }, this),
-          new Combatant({
-            level: 12,
-            name: "Naruto",
-            hp: 1,
-            vitality: 0,
-            strength: 0,
-            agility: 0,
-            intelligence: 0,
-            isCPUControlled: true,
-            actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
-            characterSprite: new Sprite({hat: 29, base: 2, eyes: 14, clothes: 35})
-          }, this),
+          // new Combatant({
+          //   level: 12,
+          //   name: "Alex",
+          //   hp: 1,
+          //   vitality: 0,
+          //   strength: 0,
+          //   agility: 0,
+          //   intelligence: 0,
+          //   isCPUControlled: true,
+          //   actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],
+          //   characterSprite: new Sprite({hat: 25, base: 2, eyes: 4, clothes: 24, mouth: 6})
+          // }, this),
         ]
       }
       // [{...Actions.punch}, {...Actions.roar}, {...Actions.slash}, {...Actions.arrowStorm}
@@ -104,7 +104,7 @@ class Battle {
       this.combatants.players.forEach((combatant, i) => {
         combatant.id = i + 1;
         combatant.actions = combatant.actions.map(action=>{
-          return new Action({...action, caster: combatant}, this)
+          return ActionClasses[action.skillName]({...action, caster: combatant}, this)
         })
         combatant.init(this.element.querySelector('.Battle_player'))
       })
@@ -112,18 +112,21 @@ class Battle {
       this.combatants.enemies.forEach((combatant, i) => {
         combatant.id = i + 4;
         combatant.actions = combatant.actions.map(action=>{
-          return new Action({...action, caster: combatant}, this)
+          return ActionClasses[action.skillName]({...action, caster: combatant}, this)
         })
         const stats = combatant.statPoints / 3
         for(let i = 0; i < stats; i++){
           const stats = ['vitality', 'strength', 'agility', 'intelligence']
           const random = Math.floor(Math.random() * stats.length)
-          combatant[stats[random]] += 1
+          combatant[stats[1]] += 1
           combatant.statPoints--
         }
-        console.log(combatant)
+        console.log(combatant.strength)
         combatant.init(this.element.querySelector('.Battle_enemy'))
       })
+
+      const eneArrX = [...new Set(this.combatants.enemies.map(x=>x.DOMProperties.x))]
+      console.log(eneArrX.reduce((a,b)=>a+b)/2)
       
       this.turnCycle = new TurnCycle({
         battle: this,

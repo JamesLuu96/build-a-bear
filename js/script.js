@@ -191,7 +191,9 @@ function buildABear(){
 }
 
 document.querySelector(".random-button").addEventListener("click", ()=>{
-    displayBear(imgEl, {...buildABear(), glasses: Math.floor(Math.random() * 13), overcoat: Math.floor(Math.random() * 10) === 0 ? Math.floor(Math.random() * 2) + 1 : 0})
+    const obj = {...buildABear(), glasses: Math.floor(Math.random() * 13), overcoat: Math.floor(Math.random() * 10) === 0 ? Math.floor(Math.random() * 2) + 1 : 0}
+    console.log(obj)
+    displayBear(imgEl, obj)
 })
 
 const obj = {

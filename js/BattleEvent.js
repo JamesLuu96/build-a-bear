@@ -8,7 +8,11 @@ class BattleEvent {
     async movesMenu(resolve){
       const {currentPlayer, players, enemies} = this.event
       if(currentPlayer.isCPUControlled){
+        console.log(currentPlayer.actions[0].caster.mp)
         const availableActions = currentPlayer.actions.filter(x=>x.enoughMana() && !x.onCooldown())
+        if(!availableActions){
+          resolve({caster: currentPlayer})
+        }
         const chosenAction = availableActions[Math.floor(Math.random() * availableActions.length)]
         let filteredTargets;
         if(chosenAction.friendly){

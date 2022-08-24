@@ -16,13 +16,8 @@ class Combatant {
       this.status = {}
       this.battle = battle;
       this.statPoints = this.level * 5
-      this.xpGainedFromWinning = (this.level * 5.5) + 8
+      this.xpGainedFromWinning = (this.level * 5.5) + 5
     }
-
-    // get xpMin() {
-    //   const num = Math.pow(this.level / .3, 2)
-    //   return Math.round(num * 100) / 100
-    // }
 
     get xpMax() {
       const num = Math.pow((this.level + 1) / .3, 2)
@@ -70,10 +65,16 @@ class Combatant {
     async giveXp(amount) {
       await new Promise(resolve=>{
         amount = Math.round(amount)
+        const quickAmount = amount / 20
         const step = async () => {
           if (amount > 0) {
-            amount -= 1;
-            this.xp += 1;
+            if((this.maxXp - this.xp) <= quickAmount){
+              amount -= (this.maxXp - this.xp)
+              this.xp = this.maxXp
+            }else{
+              amount -= quickAmount
+              this.xp += quickAmount
+            }
             
             //Check if we've hit level up point
             if (this.xp >= this.maxXp) {
@@ -89,7 +90,7 @@ class Combatant {
             }
             
             this.update()
-            // await wait(40)
+            await wait(40)
             requestAnimationFrame(step);
             return;
           }
@@ -98,34 +99,6 @@ class Combatant {
         requestAnimationFrame(step);
       })
     }
-
-    // async giveXp(amount){
-    //   await new Promise(resolve=>{
-    //     const step = async ()=>{
-    //       amount--
-    //       this.xp++
-    //       if (this.xp >= this.maxXp) {
-    //         this.levelUp()
-    //         const pEl = document.createElement('p')
-    //         pEl.classList.add('damage')
-    //         pEl.textContent = "Level Up!"
-    //         pEl.style.color = 'yellow'
-    //         pEl.addEventListener('animationend', ()=>{
-    //           pEl.remove()
-    //         }, {once: true})
-    //         this.combatantElement.appendChild(pEl)
-    //       }
-    //       this.update()
-    //       await wait(60)
-    //       if(amount > 0){
-    //         step()
-    //       }else{
-    //         resolve()
-    //       }
-    //     }
-    //     step()
-    //   })
-    // }
 
     addStatus(status){
       if(!this.status[status.name]){
@@ -140,7 +113,9 @@ class Combatant {
         duration: status.duration,
         persistent: status.persistent
       }
-      this.combatantElement.querySelector(`.buffs .${status.className}`).setAttribute("data-timer", status.duration)
+      if(status.duration){
+        this.combatantElement.querySelector(`.buffs .${status.className}`).setAttribute("data-timer", status.duration)
+      }
     }
 
     decrementStatus(status){
@@ -205,6 +180,7 @@ class Combatant {
 
     takeDamage(damage){
       const diff = damage - this.shield
+      console.log(diff)
       if(diff < 0){
         this.update({shield: diff * - 1})
       }else{
@@ -215,8 +191,15 @@ class Combatant {
     async startDamage(config){
       let {caster, damage, color, hitTime} = config
       if(typeof damage === "number"){
-        if(caster.status.rage){
+        damage = Math.max(0, damage)
+
+        if(caster?.status?.rage){
           damage = Math.ceil(damage * 1.50)
+        }
+        if(caster?.status?.oneAttack){
+          damage *= 2
+          caster.deleteStatus('oneAttack')
+          console.log('deleted buff')
         }
         this.takeDamage(damage)
         await document.querySelector(':root').style.setProperty('--hitPositionX', `${this.id > 3 ? 20: -20}%`)
@@ -237,7 +220,7 @@ class Combatant {
       const pEl = document.createElement('p')
       pEl.classList.add('damage')
       pEl.textContent = damage
-      if(color) pEl.style.color = 'orange'
+      if(color) pEl.style.color = color
       pEl.addEventListener('animationend', ()=>{
         pEl.remove()
       }, {once: true})
@@ -320,6 +303,7 @@ class Combatant {
           }
         }
       }
+
       this.totalHpBar.style.width = `${this.totalHpPercent}%`
       this.hpBar.style.width = `${this.hpPercent}%`
       this.shieldBar.style.width = `${this.shieldPercent}%`
@@ -341,6 +325,24 @@ class Combatant {
       this.createElement();
       container.appendChild(this.combatantElement);
       this.update();
+      function getBoundingClientRect(element) {
+        const rect = element.getBoundingClientRect();
+        const scale = 3
+        return {
+          top: rect.top / scale,
+          right: rect.right / scale,
+          bottom: rect.bottom / scale,
+          left: rect.left / scale,
+          width: rect.width / scale,
+          height: rect.height / scale,
+          x: rect.x / scale,
+          y: rect.y / scale
+        };
+      }
+      this.DOMProperties = getBoundingClientRect(this.combatantSprite)
+      if(this.id === 1){
+        console.log(this.DOMProperties)
+      }
     }
   
   }

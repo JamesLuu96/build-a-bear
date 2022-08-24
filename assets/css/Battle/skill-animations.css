@@ -5,15 +5,6 @@
     --hitPositionX: 0%;
     --hitRotate: 0%;
     --hitTime: .5s;
-    --positionX0: -460%;
-    --position0: -180%;
-    --positionRotat0: 10deg;
-    --positionX1: -460%;
-    --positionY1: -180%;
-    --positionRotate1: 10deg;
-    --positionX2: -460%;
-    --positionY2: -180%;
-    --positionRotate2: 10deg;
 }
 
 .arrow img{
@@ -179,6 +170,17 @@
     25% {transform: scale(1)}
     50% { opacity: 1; bottom: 50px; transform: scale(1)}
     100% { opacity: 0; bottom: 65px; transform: scale(1.5)}
+}
+
+.test-ani{
+    animation: test-ani .9s;
+    z-index: 999;
+}
+
+@keyframes test-ani {
+    0% {transform: translate3d(0,0,0) rotate(0deg)}
+    50% {transform: translate3d(154.53px,15.7px,0) rotate(0);}
+    100% {transform: translate3d(0,0,0)}
 }
 
 @keyframes hit {

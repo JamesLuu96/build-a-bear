@@ -49,20 +49,16 @@ class TurnCycle {
         }
 
         const {caster} = movesArr[i]
-        Object.keys(caster.status).forEach(s=>{
+        Object.keys(caster.status).forEach(async s=>{
+          console.log(s)
+          if(s === 'burn'){
+            await caster.startDamage({damage: Math.floor(Math.random() * 5), color: "red"})
+          }
           if(caster.status[s].persistent){
             return
           }
           caster.decrementStatus(s)
         })
-        // for(let j = 0; j < movesArr[i].action.success.length; j++){
-        //   const event = {
-        //     ...movesArr[i].action.success[j],
-        //     caster: movesArr[i].caster,
-        //     target: movesArr[i].target,
-        //     action: movesArr[i].action,
-        //   }
-        // }
       }
 
       for(let i = 0; i < this.battle.combatants.players.length; i++){
@@ -70,6 +66,7 @@ class TurnCycle {
         for(let j = 0; j < player.actions.length; j++){
           player.actions[j].tickCooldown()
         }
+        
       }
 
       for(let i = 0; i < this.battle.combatants.enemies.length; i++){
@@ -79,25 +76,6 @@ class TurnCycle {
         }
       }
   
-      //Check for post events
-      //(Do things AFTER your original turn submission)
-      // const postEvents = caster.getPostEvents();
-      // for (let i=0; i < postEvents.length; i++ ) {
-      //   const event = {
-      //     ...postEvents[i],
-      //     submission,
-      //     action: submission.action,
-      //     caster,
-      //     target: submission.target, 
-      //   }
-      //   await this.onNewEvent(event);
-      // }
-  
-      //Check for status expire
-      // const expiredEvent = caster.decrementStatus();
-      // if (expiredEvent) {
-      //   await this.onNewEvent(expiredEvent)
-      // }
       if(!this.getWinningTeam()){
         return this.turn()
       }else{
@@ -141,7 +119,7 @@ class TurnCycle {
             }
             return a + (b.xpGainedFromWinning * diff) 
           },0)
-          console.log(`${player.name} + ${amountXp}`)
+          // console.log(`${player.name} + ${amountXp}`)
           await player.giveXp(amountXp / players.length)
           resolve()
         }))).then(()=>{
