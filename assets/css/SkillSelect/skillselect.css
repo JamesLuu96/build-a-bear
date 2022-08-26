@@ -5,6 +5,7 @@
     top: 0;
     bottom: 0;
     padding: 2px;
+    display: flex;
 }
 
 .SkillSelect .left-side{
@@ -31,10 +32,13 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: center;
+    gap: 5px;
 }
 
 .SkillSelect .skill-icon{
     width: 14px;
+    height: 14px;
+    cursor: pointer;
 }
 
 .SkillSelect .skill-icon img{
@@ -45,4 +49,41 @@
 
 .SkillSelect .skill-grid .skill-icon:nth-child(3n+1){
     grid-column: span 2;
+}
+
+.SkillSelect .right-side{
+    width: 10px;
+    border: 1px solid white;
+    background-color: rgb(236, 208, 176);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px;
+    gap: 5px;
+}
+
+.SkillSelect .right-side .skill-icon{
+    cursor: default;
+}
+
+.SkillSelect > * {
+    flex-grow: 1;
+}
+
+.SkillSelect .right-side .desc{
+    font-size: 8px;
+    text-align: center;
+}
+
+.SkillSelect .inactive img{
+    filter: brightness(30%);
+}
+
+
+.SkillSelect .available{
+    outline: 1px solid white;
+}
+
+.SkillSelect .selected{
+    outline: 1px solid yellow;
 }

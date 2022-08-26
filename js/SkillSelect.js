@@ -1,7 +1,66 @@
 class SkillSelect {
     constructor() {
       this.classArr = [
-        1,2,3,4,5,6,7,8,9,10
+        {
+            name: "Turtle",
+            icon: "turtle",
+            skillName: "turtle",
+            description: '',
+        },
+        {
+            name: "Red Bone Crush",
+            icon: "bonecrusher1",
+            skillName: "redbonecrusher",
+            description: '',
+        },
+        {
+            name: "Blue Bone Crush",
+            icon: "bonecrusher2",
+            skillName: "bluebonecrusher",
+            description: '',
+        },
+        {
+            name: "Defense Up",
+            icon: "defup",
+            skillName: "defenseup",
+            description: '',
+        },
+        {
+            name: "Reflection",
+            icon: "reflect",
+            skillName: "reflect",
+            description: '',
+        },
+        {
+            name: "Protection",
+            icon: "protect",
+            skillName: "protection",
+            description: '',
+        },
+        {
+            name: "Absorption",
+            icon: "absorption",
+            skillName: "absorption",
+            description: '',
+        },
+        {
+            name: "Charge Slash",
+            icon: "chargeattack",
+            skillName: "chargeattack",
+            description: '',
+        },
+        {
+            name: "Charge Blast",
+            icon: "chargeblast",
+            skillName: "chargeblast",
+            description: '',
+        },
+        {
+            name: "Power Surge",
+            icon: "powersurge",
+            skillName: "powersurge",
+            description: '',
+        }
       ]
     }
     
@@ -19,7 +78,7 @@ class SkillSelect {
                     <div class="skill-grid">
                     ${this.classArr.map(x=>`
                         <div class="skill-icon">
-                            <img src="./assets/img/skills/crusader/${x}.png" alt="">
+                            <img src="./assets/img/skills/crusader/${x.icon}.png" alt="">
                         </div>
                     `).join("")}
                         
@@ -116,7 +175,14 @@ class SkillSelect {
                 </div>
             </div>
         </div>
-        
+        <div class="right-side">
+            <div class="skill-icon">
+                <img src="./assets/img/skills/crusader/absorption.png" alt="">
+            </div>
+            <p>Absorption</p>
+            <p class="desc">Absorbs 5 moves and releases the pulse to multiple enemies.</p>
+            <button>Learn</button>
+        </div>
       `)
     }
     
