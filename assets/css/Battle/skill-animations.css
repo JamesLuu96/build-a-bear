@@ -7,13 +7,13 @@
     --hitTime: .5s;
 }
 
-.arrow img{
+.Battle .arrow img{
     width: 100%;
     height: 100%;
     position: absolute;
 }
 
-.arrow-attack0{
+.Battle .arrow-attack0{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -25,7 +25,7 @@
     transform: rotate(var(--positionRotate0));
 }
 
-.arrow-attack1{
+.Battle .arrow-attack1{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -37,7 +37,7 @@
     transform: rotate(var(--positionRotate1));
 }
 
-.arrow-attack2{
+.Battle .arrow-attack2{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -49,7 +49,7 @@
     transform: rotate(var(--positionRotate2));
 }
 
-.arrow-attack-reverse0{
+.Battle .arrow-attack-reverse0{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -61,7 +61,7 @@
     transform: rotate(var(--positionRotate0)) scaleX(-1);
 }
 
-.arrow-attack-reverse1{
+.Battle .arrow-attack-reverse1{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -73,7 +73,7 @@
     transform: rotate(var(--positionRotate1)) scaleX(-1);
 }
 
-.arrow-attack-reverse2{
+.Battle .arrow-attack-reverse2{
     width: 40px;
     height: 40px;
     position: absolute;
@@ -121,7 +121,7 @@
     100% {transform: translate3d(var(--positionX2), var(--positionY2),0) rotate(var(--positionRotate2)) scaleX(-1); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
 }
 
-.animation-slash::after {
+.Battle .animation-slash::after {
     content:'';
     position: absolute;
     left: 24px;
@@ -143,7 +143,7 @@
     100% {transform:rotate(45deg) scaleX(0);}
 }
 
-.animation-attack {
+.Battle .animation-attack {
     animation: attack .7s;
     z-index: 999;
 }
@@ -154,7 +154,7 @@
     100% {transform: translate3d(0,0,0)}
 }
 
-.animation-bounce {
+.Battle .animation-bounce {
     animation: bounce .5s;
     z-index: 999;
 }
@@ -189,6 +189,6 @@
     100% {transform: translate3d(0,0,0)}
 }
 
-.hit{
+.Battle .hit{
     animation: hit var(--hitTime);
 }

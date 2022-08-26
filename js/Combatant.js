@@ -1,7 +1,7 @@
 class Combatant {
     constructor(config, battle) {
       this.mp = 5 + (config.intelligence * 2) + (config.level * 5)
-      this.hp = 30 + (config.vitality * 2) + (config.level * 5)
+      this.hp = 30 + (config.vitality * 2) + (config.level * 5) + (Math.floor(config.level / 10) * 100)
       this.shield = 0
       this.xp = 0
       Object.keys(config).forEach(key => {
@@ -11,7 +11,7 @@ class Combatant {
         this.level = 1
       }
       this.maxXp = this.xpMax
-      this.maxHp = 30 + (this.vitality * 2) + (this.level * 5)
+      this.maxHp = 30 + (this.vitality * 2) + (this.level * 5) + (Math.floor(this.level / 10) * 100)
       this.maxMp = 5 + (config.intelligence * 2) + (config.level * 5)
       this.status = {}
       this.battle = battle;
@@ -277,7 +277,7 @@ class Combatant {
         this[key] = changes[key]
       });
   
-      const newHp = 30 + (this.vitality * 2) + (this.level * 5)
+      const newHp = 30 + (this.vitality * 2) + (this.level * 5) + Math.floor(this.level / 10) * 100
       if(newHp !== this.maxHp){
         if(newHp > this.maxHp){
           const diff = newHp - this.maxHp

@@ -1,4 +1,4 @@
-.buffs{
+.Battle .buffs{
     position: absolute;
     display: flex;
     height: 10px;
@@ -9,7 +9,7 @@
     gap: 1px;
 }
 
-.bear-container[data-combatant="1"] .buffs, .bear-container[data-combatant="4"] .buffs{
+.Battle .bear-container[data-combatant="1"] .buffs, .bear-container[data-combatant="4"] .buffs{
     flex-direction: column;
     justify-content: flex-end;
     width: 10px;
@@ -19,7 +19,7 @@
     left: auto;
 }
 
-.bear-container[data-combatant="4"] .buffs{
+.Battle .bear-container[data-combatant="4"] .buffs{
     right: auto;
     left: -11px;
 }
@@ -27,7 +27,7 @@
 
 
 
-.buffs > div{
+.Battle .buffs > div{
     position: relative;
     width: 10px;
     height: 10px;
@@ -36,13 +36,13 @@
     display: flex;
 }
 
-.buffs > div img{
+.Battle .buffs > div img{
     object-fit: contain;
     width: 100%;
     height: 100%;
 }
 
-.buffs > div[data-timer]::after{
+.Battle .buffs > div[data-timer]::after{
     content: attr(data-timer);
     position: absolute;
     font-size: 5px;
@@ -52,7 +52,7 @@
 }
 
 
-.enraged-buff{
+.Battle .enraged-buff{
     filter: none;
     animation: fadeInBuff 1s;
     opacity: 1;

@@ -3,11 +3,11 @@ class Battle {
       this.combatants = {
         players: [
           new Combatant({
-            level: 20,
+            level: 30,
             name: "Tony",
-            vitality:100,
-            strength: 75,
-            agility: 75,
+            vitality: 100,
+            strength: 50,
+            agility: 0,
             intelligence: 0,
             isCPUControlled: false,
             actions: [{...Actions.punchAction}, {...Actions.roarAction}, {...Actions.slashAction}, {...Actions.arrowStormAction}],

@@ -31,37 +31,37 @@ body{
     background-blend-mode: multiply;
 }
 
-.Battle_player .bear-container[data-combatant="1"]{
+.Battle .Battle_player .bear-container[data-combatant="1"]{
     left: 90px;
     top: 30px;
 }
 
-.Battle_player .bear-container[data-combatant="2"]{
+.Battle .Battle_player .bear-container[data-combatant="2"]{
     left: 5px;
     top: 5px;
 }
 
-.Battle_player .bear-container[data-combatant="3"]{
+.Battle .Battle_player .bear-container[data-combatant="3"]{
     left: 5px;
     bottom: 35px;
 }
 
-.Battle_enemy .bear-container[data-combatant="4"]{
+.Battle .Battle_enemy .bear-container[data-combatant="4"]{
     right: 90px;
     top: 30px;
 }
 
-.Battle_enemy .bear-container[data-combatant="5"]{
+.Battle .Battle_enemy .bear-container[data-combatant="5"]{
     right: 5px;
     top: 5px;
 }
 
-.Battle_enemy .bear-container[data-combatant="6"]{
+.Battle .Battle_enemy .bear-container[data-combatant="6"]{
     right: 5px;
     bottom: 35px;
 }
 
-.Battle-text {
+.Battle .Battle-text {
     color: white;
     text-align: center;
     font-size: 12px;
@@ -70,11 +70,11 @@ body{
 
 
 
-.inactive{
+.Battle .inactive{
     -webkit-filter: brightness(20%);
 }
 
-.action-menu{
+.Battle .action-menu{
     /* background: grey; */
     position: absolute;
     display: flex;
@@ -86,7 +86,7 @@ body{
     transform: translate(-50%, 0%);
 }
 
-.action-menu button {
+.Battle .action-menu button {
     font-size: 10px;
     
 }

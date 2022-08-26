@@ -1,11 +1,11 @@
 
-.skill .skill-img:hover{
+.Battle .skill .skill-img:hover{
     cursor: default;
     outline: 2px ridge rgb(221, 218, 218);
 }
 
 
-.skills-select{
+.Battle .skills-select{
     background: rgba(80, 78, 78, 0.404);
     padding: 3px;
     border-radius: 3px;
@@ -16,44 +16,44 @@
     text-shadow: 1px 1px black;
 }
 
-.skills-select h1 {
+.Battle .skills-select h1 {
     font-size: 6px;
     color: orange;
     text-shadow: 1px 1px black;
 }
 
-.skill-select-organizer {
+.Battle .skill-select-organizer {
     display: flex;
     flex-direction: column;
 }
 
-.skill-select-organizer > *{
+.Battle .skill-select-organizer > *{
     flex-grow: 1;
 }
 
-.skill-select-attr{
+.Battle .skill-select-attr{
     display: flex;
     gap: 5px;
 }
 
-.skill-select-title{
+.Battle .skill-select-title{
     display: flex;
     align-items: center;
     gap: 2px;
 }
 
-.skills-select button{
+.Battle .skills-select button{
     cursor: pointer;
 }
 
-.skill-select-button-container{
+.Battle .skill-select-button-container{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 3px;
 }
 
-.skill-select-button-container button{
+.Battle .skill-select-button-container button{
     font-size: 10px;
     font-weight: bold;
     border: 2px ridge rgb(204, 202, 202);
@@ -65,21 +65,21 @@
     letter-spacing: 1.2px;
 }
 
-.skill-select-button-container button:hover{
+.Battle .skill-select-button-container button:hover{
     border: 2px ridge rgb(156, 154, 154);
     background-color: rgb(86, 86, 105);
     color: rgb(206, 201, 201);
 
 }
 
-.skill-select-button-container button[data-inactive="true"]{
+.Battle .skill-select-button-container button[data-inactive="true"]{
     background-color: rgb(79, 79, 85);
     cursor: default;
     color: rgb(83, 81, 81);
     border: 2px ridge rgb(109, 107, 107);
 }
 
-.skill-select-button-container button[data-inactive="true"]:hover{
+.Battle .skill-select-button-container button[data-inactive="true"]:hover{
     background-color: rgb(79, 79, 85);
     cursor: default;
     color: rgb(83, 81, 81);

@@ -1,4 +1,4 @@
-.bear-container{
+.Battle .bear-container{
     position: absolute;
     width: 60px;
     height: 60px;
@@ -6,7 +6,7 @@
     border-radius: 15px 15px 0 0;
 }
 
-.bear-stats{
+.Battle .bear-stats{
     position: absolute;
     /* background: grey; */
     width: 60px;
@@ -17,7 +17,7 @@
     text-shadow: 1px 1px black;
 }
 
-.bear {
+.Battle .bear {
     position: absolute;
     top: 0;
     left: 0;
@@ -26,7 +26,7 @@
     transition: -webkit-filter 1s;
 }
 
-.bear-hp-bar{
+.Battle .bear-hp-bar{
     position: absolute;
     font-size: 3px;
     color: white;
@@ -36,14 +36,14 @@
     top: -2px;
     z-index: 100;
 }
-.bear-hp-left{
+.Battle .bear-hp-left{
     height: 4px;
     /* width: 100%; */
     display: flex;
     transition: width 0.2s;
 }
 
-.bear-hp-percent{
+.Battle .bear-hp-percent{
     /* width: 90%; */
     height: 100%;
     background-color: green;
@@ -51,7 +51,7 @@
     
 }
 
-.bear-hp-percent::after{
+.Battle .bear-hp-percent::after{
     content: attr(data-bear-hp);
     position: absolute;
     left: 0; 
@@ -62,7 +62,7 @@
     
 }
 
-.bear-level-container{
+.Battle .bear-level-container{
     border: 1px ridge rgb(224, 203, 134);
     border-radius: 1px;
     height: 10px;
@@ -77,14 +77,14 @@
     padding: 1px;
 }
 
-.bear-level-container[data-level]::after{
+.Battle .bear-level-container[data-level]::after{
     content: attr(data-level);
     font-size: 6px;
     color: white;
     text-shadow: .5px .5px black;
 }
 
-.bear-xp-bar{
+.Battle .bear-xp-bar{
     position: absolute;
     width: 50px;
     height: 1px;
@@ -94,17 +94,17 @@
     left: 9px;
 }
 
-.bear-xp-percent{
+.Battle .bear-xp-percent{
     height: 100%;
     background-color: rgb(241, 199, 12);
     transition: width 0.2s;
 }
 
-.Battle_enemy .bear-hp-percent{
+.Battle .Battle_enemy .bear-hp-percent{
     background-color: red;
 }
 
-.bear-shield-percent{
+.Battle .bear-shield-percent{
     height: 100%;
     width: 10%;
     background-color: grey;
@@ -112,11 +112,11 @@
 
 }
 
-.bear-bar-text {
+.Battle .bear-bar-text {
     position: absolute;
     left: 20px;
 }
-.bear-mp-bar {
+.Battle .bear-mp-bar {
     position: absolute;
     z-index: 100;
     font-size: 3px;
@@ -128,20 +128,20 @@
     display: flex;
 }
 
-.bear-mp-percent::after{
+.Battle .bear-mp-percent::after{
     content: attr(data-bear-mp);
     position: absolute;
     left: 20px;
 }
 
-.bear-mp-percent{
+.Battle .bear-mp-percent{
     height: 4px;
     width: 100%;
     background-color: blue;
     transition: width 0.2s;
 
 }
-.bear-container .bear img{
+.Battle .bear-container .bear img{
     width: 100%;
     height: 100%;
     position: absolute;
