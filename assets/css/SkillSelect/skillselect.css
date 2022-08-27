@@ -60,6 +60,8 @@
     align-items: center;
     font-size: 12px;
     gap: 5px;
+    text-align: center;
+    padding: 5px;
 }
 
 .SkillSelect .right-side .skill-icon{
