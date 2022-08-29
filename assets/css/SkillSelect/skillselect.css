@@ -39,6 +39,7 @@
     width: 14px;
     height: 14px;
     cursor: pointer;
+    position: relative;
 }
 
 .SkillSelect .skill-icon img{
@@ -88,4 +89,28 @@
 
 .SkillSelect .selected{
     outline: 1px solid yellow;
+}
+
+
+.SkillSelect .requirements p{
+    font-size: 8px;
+    color: grey;
+    text-decoration: line-through;
+}
+
+.SkillSelect .requirements .red{
+    color: red;
+    text-decoration: none;
+}
+
+.SkillSelect .requirements > *::before{
+    content: '*';
+}
+
+.SkillSelect .skill-icon:not(.inactive)::after{
+    content: attr(data-level) '/' attr(data-max-level);
+    position: absolute;
+    font-size: 4px;
+    bottom: 0;
+    right: 0px;
 }

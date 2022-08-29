@@ -7,6 +7,10 @@
 body{
     overflow: hidden;
     background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 .game-container{
@@ -15,8 +19,8 @@ body{
     height: 198px;
     outline: 1px solid white;
     margin: 0 auto;
-    margin-top: 20px;
-    transform: scale(3) translateY(50%);
+    /* margin-top: 20px; */
+    transform: scale(3) translateY(0%);
 }
 
 .Battle {
