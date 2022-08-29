@@ -2,10 +2,10 @@ class SkillSelect {
     constructor() {
         this.selectedSkill;
         this.isSelected = false
-        this.skillPoints = 20
+        this.skillPoints = 2
         this.level = 20
         this.strength = 20
-        this.vitality = 0
+        this.vitality = 20
         this.agility = 0
         this.intelligence = 0
         this.actions = {}

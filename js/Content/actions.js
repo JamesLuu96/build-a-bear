@@ -138,16 +138,15 @@ window.classSkills = {
                 icon: "roar",
                 auto: true,
                 description: "Grants all teammates and self a buff that increases your attack by 50%.",
-                maxLevel: 3,
+                maxLevel: 2,
                 requires: {
                     1: {level: 2},
-                    2: {level: 5, strength: 10, vitality: 10},
-                    3: {level: 10, strength: 15, vitality: 15}
+                    2: {level: 5, strength: 10, vitality: 10}
                 }
             },
             bloodchop:{
                 name: "Blood Chop",
-                icon: "roar",
+                icon: "bloodchop",
                 description: "Suffer damage, then deal a powerful attack.",
                 maxLevel: 3,
                 requires: {
@@ -158,25 +157,28 @@ window.classSkills = {
             },
             savagestrike:{
                 name: "Savage Strike",
-                icon: "roar",
+                icon: "savagestrike",
                 description: 'Suffer damage, then deal a strike that penetrates defense.',
                 requires: {
-                    1: {action: ["roar"]}
+                    1: {action: ["roar"]},
+                    2: {},
+                    3: {}
                 },
                 maxLevel: 3
             },
             bloodboil:{
                 name: "Blood Boil",
-                icon: "roar",
+                icon: "bloodboil",
                 description: "Grants 5 rage. Skills that damage yourself grant you rage. Rage is used to make your other skills stronger.",
-                maxLevel: 1,
+                maxLevel: 2,
                 requires: {
-                    1: {action: ["bloodchop", "savagestrike"]}
+                    1: {action: ["bloodchop", "savagestrike"]},
+                    2: {}
                 },
             },
             bloodcontract:{
                 name: "Blood Contract",
-                icon: "roar",
+                icon: "bloodcontract",
                 description: 'Lose 20% hp and gain 25% vitality.',
                 maxLevel: 1,
                 requires: {
@@ -185,56 +187,62 @@ window.classSkills = {
             },
             bloodleech:{
                 name: "Blood Leech",
-                icon: "roar",
+                icon: "bloodleech",
                 description: 'An attack that steals life based off strength.',
                 requires: {
-                    1: {action: ["bloodboil"]}
+                    1: {action: ["bloodboil"]},
+                    2: {}
                 },
-                maxLevel: 3
+                maxLevel: 2
             },
             bloodcleanse:{
                 name: "Blood Cleanse",
-                icon: "roar",
+                icon: "bloodcleanse",
                 description: 'Consumes all rage to heal and remove all negative debuffs.',
                 requires: {
-                    1: {action: ["bloodcontract", "bloodleech"]}
+                    1: {action: ["bloodcontract", "bloodleech"]},
+                    2: {}
                 },
-                maxLevel: 3
+                maxLevel: 2
             },
             bloodslash:{
                 name: "Blood Slash",
-                icon: "roar",
+                icon: "bloodslash",
                 description: 'Suffer damage, then deal a slash to multiple targets.',
                 requires: {
-                    1: {action: ["bloodcleanse"]}
+                    1: {action: ["bloodcleanse"]},
+                    2: {},
+                    3: {}
                 },
                 maxLevel: 3
             },
-            earthquake:{
-                name: "Earthquake",
-                icon: "roar",
+            earthshatter:{
+                name: "Earth Shatter",
+                icon: "earthshatter",
                 description: 'Deals 3 waves of damage to everyone.',
                 requires: {
-                    1: {action: ["bloodcleanse"]}
+                    1: {action: ["bloodcleanse"]},
+                    2: {},
+                    3: {}
                 },
                 maxLevel: 3
             },
             lastgrasp:{
                 name: "Last Grasp",
-                icon: "roar",
+                icon: "lastgrasp",
                 description: 'A powerful attack based off having low HP. Can only use when HP is lower than 50%.',
                 maxLevel: 3,
                 requires: {
-                    1: {action: ["bloodslash", "earthquake"]},
+                    1: {action: ["bloodslash", "earthshatter"]},
                     2: {},
                     3: {}
                 },
             },
         },
         knight: {
-            spearpierce: {
-                name: "Spear Pierce",
-                icon: "slash",
+            piercingblow: {
+                name: "Piercing Blow",
+                icon: "piercingblow",
                 description: 'Deals damage that goes through shield.',
                 auto: true,
                 maxLevel: 3,
@@ -246,34 +254,34 @@ window.classSkills = {
             },
             twinmaim:{
                 name: "Twin Maim",
-                icon: "slash",
+                icon: "twinmaim",
                 description: "Strikes two enemies and gives them an armor reduction debuff.",
                 maxLevel: 1,
                 requires: {
-                    1: {action: ["spearpierce"]}
+                    1: {action: ["piercingblow"]}
                 }
             },
             riposte:{
                 name: "Riposte",
-                icon: "slash",
+                icon: "riposte",
                 description: "Deals an attack that if that enemy is attacking you after that attack, it will interrupt it.",
                 maxLevel: 1,
                 requires: {
-                    1: {action: ["spearpierce"]}
+                    1: {action: ["piercingblow"]}
                 },
             },
             shieldup:{
                 name: "Shield Up",
-                icon: "slash",
+                icon: "shieldup",
                 description: 'Gain shield.',
                 maxLevel: 1,
                 requires: {
                     1: {action: ["twinmaim", "riposte"]}
                 },
             },
-            trispear:{
-                name: "Tri Spear",
-                icon: "slash",
+            triplestrike:{
+                name: "Triple Strike",
+                icon: "triple",
                 description: 'Attacks three enemies.',
                 requires: {
                     1: {action: ["shieldup"]}
@@ -282,7 +290,7 @@ window.classSkills = {
             },
             chargingshield:{
                 name: "Charging Shield",
-                icon: "slash",
+                icon: "chargingshield",
                 description: 'Gain shield, then after a turn deal a powerful attack.',
                 requires: {
                     1: {action: ["shieldup"]}
@@ -291,16 +299,16 @@ window.classSkills = {
             },
             nullifyingaura:{
                 name: "Nullifying Aura",
-                icon: "slash",
+                icon: "nullifyingaura",
                 description: 'Grants two friendly targets an aura that blocks the next magic attack.',
                 requires: {
-                    1: {action: ["trispear", "chargingshield"]}
+                    1: {action: ["triplestrike", "chargingshield"]}
                 },
                 maxLevel: 3
             },
             shieldbash:{
                 name: "Shield Bash",
-                icon: "slash",
+                icon: "shieldbash",
                 description: 'Strikes with an attack that scales with current shield value. Has a chance to stun.',
                 requires: {
                     1: {action: ["nullifyingaura"]}
@@ -309,7 +317,7 @@ window.classSkills = {
             },
             shieldcrash:{
                 name: "Shield Crash",
-                icon: "slash",
+                icon: "shieldcrash",
                 description: 'Consumes all your shield to deal a powerful attack.',
                 requires: {
                     1: {action: ["nullifyingaura"]}
@@ -318,7 +326,7 @@ window.classSkills = {
             },
             shieldabsorption:{
                 name: "Shield Absorption",
-                icon: "slash",
+                icon: "shieldabsorption",
                 description: 'Deals an AOE strike and gain shield for every hit.',
                 requires: {
                     1: {action: ["shieldbash", "shieldcrash"]}
