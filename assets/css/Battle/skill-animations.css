@@ -192,3 +192,48 @@
 .Battle .hit{
     animation: hit var(--hitTime);
 }
+
+.Battle .cross img{
+    width: 75%;
+    height: 75%;
+    position: absolute;
+    animation: spinning 630ms infinite;
+}
+
+@keyframes spinning {
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(380deg)}
+}
+
+.Battle .cross-attack0{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-cross0 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate0));
+}
+.Battle .cross-attack-reverse0{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    animation: attack-cross-reverse0 .5s;
+    z-index: 999;
+    opacity: 0;
+    transform: rotate(var(--positionRotate0)) scaleX(-1);
+}
+@keyframes attack-cross0 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate0)); opacity: 1; }
+    80% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}
+@keyframes attack-cross-reverse0 {
+    0% {transform: translate3d(0,0,0) rotate(var(--positionRotate0)) scaleX(-1); opacity: 1; }
+    50% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)) scaleX(-1); opacity: 1; filter: none;}
+    100% {transform: translate3d(var(--positionX0), var(--positionY0),0) rotate(var(--positionRotate0)) scaleX(-1); filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%); opacity: 0;}
+}

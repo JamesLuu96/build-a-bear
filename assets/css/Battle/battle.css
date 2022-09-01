@@ -98,14 +98,24 @@ body{
 .Battle .damage{
     position: absolute;
     bottom: 65px;
-    right: -45px;
+    right: 15px;
     animation: fadeIn 2.5s;
     opacity: 0;
-    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 30px;
     /* background-color: white; */
     text-align: center;
     color: white;
     text-shadow: 1px 1px black;
     transform: scale(1.5);
     z-index: 300;
+    font-size: 80%;
+}
+
+.Battle .crit{
+    background-image: url('../../img/skills/content/status/crit.png');
+    background-size: contain;
 }

@@ -4,9 +4,12 @@ class Combatant {
       this.hp = 30 + (config.vitality * 2) + (config.level * 5) + (Math.floor(config.level / 10) * 100)
       this.shield = 0
       this.xp = 0
+      this.bonusDef = 0
+      this.bonusMDef = 0
       Object.keys(config).forEach(key => {
         this[key] = config[key];
       })
+      
       if(this.level === undefined){
         this.level = 1
       }
@@ -17,6 +20,18 @@ class Combatant {
       this.battle = battle;
       this.statPoints = this.level * 5
       this.xpGainedFromWinning = (this.level * 5.5) + 5
+    }
+
+    isAlive(){
+      return this.hp > 0
+    }
+
+    get def(){
+      return this.bonusDef + this.defLevel
+    }
+
+    get mdef(){
+      return this.bonusMDef + this.mdefLevel
     }
 
     get xpMax() {
@@ -101,39 +116,54 @@ class Combatant {
     }
 
     addStatus(status){
-      if(!this.status[status.name]){
+      if(this.status[status.name]){
+        this.deleteStatus(this.status[status.name])
+      }
+      if(status.hasElement){
         const statusDivEl = document.createElement('div')
         statusDivEl.classList.add(status.className)
         statusDivEl.innerHTML = `<img src="./assets/img/skills/content/status/${status.img}.png" alt="">`
         this.combatantElement.querySelector('.buffs').appendChild(statusDivEl)
       }
-      this.status[status.name] = {
-        className: status.className,
-        newlyApplied: status.newlyApplied ? true : false,
-        duration: status.duration,
-        persistent: status.persistent
-      }
+      
+      // this.status[status.name] = {
+      //   className: status.className,
+      //   newlyApplied: status.newlyApplied ? true : false,
+      //   duration: status.duration,
+      //   persistent: status.persistent
+      // }
+      this.status[status.name] = {...status}
+
       if(status.duration){
         this.combatantElement.querySelector(`.buffs .${status.className}`).setAttribute("data-timer", status.duration)
+      }
+
+      if(status.name === "defup"){
+        this.bonusDef += status.def
+        this.bonusMDef += status.mdef
       }
     }
 
     decrementStatus(status){
-      if(this.status[status].newlyApplied){
-        this.status[status].newlyApplied = false
+      if(this.status[status.name].newlyApplied){
+        this.status[status.name].newlyApplied = false
         return
       }
-      this.status[status].duration--
-      if(this.status[status].duration === 0){
+      this.status[status.name].duration--
+      if(this.status[status.name].duration === 0){
         this.deleteStatus(status)
       }else{
-        this.combatantElement.querySelector(`.buffs .${this.status[status].className}`).setAttribute("data-timer", this.status[status].duration)
+        this.combatantElement.querySelector(`.buffs .${this.status[status.name].className}`).setAttribute("data-timer", this.status[status.name].duration)
       }
     }
 
     deleteStatus(status){
-      this.combatantElement.querySelector(`.buffs .${this.status[status].className}`).remove()
-      delete this.status[status]
+      if(status.hasElement)this.combatantElement.querySelector(`.buffs .${this.status[status.name].className}`).remove()
+      if(status.name === "defup"){
+        this.bonusDef -= status.def
+        this.bonusMDef -= status.mdef
+      }
+      delete this.status[status.name]
     }
   
     createElement() {
@@ -180,16 +210,46 @@ class Combatant {
 
     takeDamage(damage){
       const diff = damage - this.shield
-      console.log(diff)
       if(diff < 0){
-        this.update({shield: diff * - 1})
+        this.update({shield: diff * -1})
       }else{
         this.update({shield: 0, hp: Math.max(0, this.hp - diff)})
       }
     }
 
+    async displayText(config){
+      // const config = {
+      //   text: "Defense Up",
+      //   color: "lightblue"
+      // }
+      const pEl = document.createElement('p')
+      pEl.classList.add('damage')
+      pEl.textContent = config.text
+      pEl.classList.add(...config.classNames || "")
+      pEl.style.color = config.color || ''
+      pEl.addEventListener('animationend', ()=>{
+        pEl.remove()
+      }, {once: true})
+      this.combatantElement.appendChild(pEl)
+    }
+
+    async calcDamage(config){
+      let {caster, damage, type} = config
+      const target = this
+      if(type === "physical"){
+
+      }else if(type === "magical"){
+
+      }else if(type === "special"){
+
+      }
+    }
+
     async startDamage(config){
+      console.log(this.name, this.def)
       let {caster, damage, color, hitTime} = config
+      let crit = false
+      console.log(damage)
       if(typeof damage === "number"){
         damage = Math.max(0, damage)
 
@@ -200,6 +260,24 @@ class Combatant {
           damage *= 2
           caster.deleteStatus('oneAttack')
           console.log('deleted buff')
+        }
+        const random = Math.floor(Math.random() * 100) + 1
+        console.log(`${random + (Math.floor(this.crit/5))} <= ${caster.crit * .75}`)
+        if(random + (Math.floor(this.crit / 5)) <= (caster.crit * .75)){
+          damage = Math.floor(1.4 * damage)
+          crit = true
+        }
+        damage = Math.floor((100/(100+this.def)) * damage)
+
+        if(caster.status.physicalweak){
+          const percent = 1 - (caster.status.physicalweak.debuff * .01)
+          damage = Math.floor(damage * percent)
+          caster.deleteStatus(caster.status.physicalweak)
+        }
+
+        if(this.status.withdraw){
+          const percent = 1 - (this.status.withdraw.damage_reduction * .01)
+          damage = Math.floor(damage * percent)
         }
         this.takeDamage(damage)
         await document.querySelector(':root').style.setProperty('--hitPositionX', `${this.id > 3 ? 20: -20}%`)
@@ -220,6 +298,10 @@ class Combatant {
       const pEl = document.createElement('p')
       pEl.classList.add('damage')
       pEl.textContent = damage
+      if(crit){
+        pEl.style.color = 'yellow'
+        pEl.classList.add('crit')
+      } 
       if(color) pEl.style.color = color
       pEl.addEventListener('animationend', ()=>{
         pEl.remove()
@@ -237,6 +319,10 @@ class Combatant {
 
     gainMana(mana){
       this.update({mp: Math.min(this.maxMp, this.mp + mana)})
+    }
+
+    get mpRegen(){
+      return Math.floor(this.intelligence / 10)
     }
 
     async startHealing(config){
@@ -313,12 +399,20 @@ class Combatant {
       this.mpBar.setAttribute('data-bear-mp', `${this.mp}/${this.maxMp}`)
       this.levelEl.setAttribute('data-level', this.level)
       this.maxXp = this.xpMax
+      this.defLevel = Math.floor(this.vitality)
+      this.mdefLevel = Math.floor(this.vitality / 2)
 
       if(this.hp <= 0){
-        this.combatantElement.querySelector('.bear').classList.add('inactive')
-      }else{
-        this.combatantElement.querySelector('.bear').classList.remove('inactive')
+        this.knockout()
       }
+
+    }
+
+    knockout(){
+      this.combatantElement.querySelector('.bear').classList.add('inactive')
+      Object.values(this.status).forEach(status=>{
+        this.deleteStatus(status)
+      })
     }
 
     init(container) {
@@ -340,9 +434,7 @@ class Combatant {
         };
       }
       this.DOMProperties = getBoundingClientRect(this.combatantSprite)
-      if(this.id === 1){
-        console.log(this.DOMProperties)
-      }
+      
     }
   
   }

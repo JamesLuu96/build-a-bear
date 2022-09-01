@@ -22,109 +22,405 @@ window.classSkills = {
             withdraw: {
                 name: "Withdraw",
                 icon: "withdraw",
-                description: 'Prevent all damage for a turn.',
+                description: 'Prevent {DAMAGE_REDUCTION}% damage for a turn.',
+                skillObj: {
+                    DAMAGE_REDUCTION: {
+                        name: "Damage Reduction",
+                        percent: true,
+                        1: 50,
+                        2: 75,
+                        3: 100
+                    }
+                },
                 auto: true,
                 maxLevel: 3,
                 requires: {
-                    1: {level: 2},
-                    2: {level: 5, strength: 10, vitality: 10},
+                    1: {level: 2, vitality: 5},
+                    2: {level: 6, vitality: 20},
                     3: {level: 10, strength: 15, vitality: 15}
-                }
+                },
+                cooldownList: {
+                    1: 3,
+                    2: 4,
+                    3: 4
+                },
+                speedList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
+                mpList: {
+                    1: 5,
+                    2: 20,
+                    3: 45
+                },
+                friendly: true
             },
             redbonecrusher:{
-                name: "Red Bone Crush",
+                name: "Divine Spear",
                 icon: "bonecrusher1",
-                description: "An attack that applies a physical debuff to the target's next attack.",
+                description: "An attack that deals {BASE}(+{STRENGTH}%) physical damage and applies a {DEBUFF}% physical debuff to the target's next attack.",
+                skillObj: {
+                    BASE: {
+                        name: "Base",
+                        1: 20,
+                        2: 35,
+                        3: 50
+                    },
+                    STRENGTH: {
+                        name: "Strength",
+                        percent: true,
+                        1: 50,
+                        2: 75,
+                        3: 100
+                    },
+                    DEBUFF: {
+                        name: "Debuff Effect",
+                        percent: true,
+                        1: 25,
+                        2: 25,
+                        3: 50
+                    }
+                },
                 maxLevel: 3,
+                targetList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
                 requires: {
-                    1: {action: ["withdraw"]},
-                    2: {},
+                    1: {action: ["withdraw"], level: 3, vitality: 10},
+                    2: {level: 4},
                     3: {}
-                }
+                },
+                cooldownList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
+                mpList: {
+                    1: 4,
+                    2: 10,
+                    3: 20
+                },
+                speedList: {
+                    1: 5,
+                    2: 5,
+                    3: 5
+                },
             },
             bluebonecrusher:{
-                name: "Blue Bone Crush",
+                name: "Divine Cross",
                 icon: "bonecrusher2",
-                description: "An attack that applies a magic debuff to the target's next attack.",
+                description: "An attack that deals {BASE}(+{INTELLIGENCE}%) magical damage and applies a {DEBUFF}% magic debuff to {TARGET} target's next attack.",
+                skillObj: {
+                    BASE: {
+                        name: "Base",
+                        1: 15,
+                        2: 25,
+                        3: 35
+                    },
+                    INTELLIGENCE: {
+                        name: "Intelligence",
+                        percent: true,
+                        1: 35,
+                        2: 55,
+                        3: 75
+                    },
+                    DEBUFF: {
+                        name: "Debuff Effect",
+                        percent: true,
+                        1: 25,
+                        2: 25,
+                        3: 50
+                    },
+                    TARGET: {
+                        name: "Target",
+                        1: 2,
+                        2: 2, 
+                        3: 3
+                    },
+                    COOLDOWN: {
+                        name: "Cooldown",
+                        1: 1,
+                        2: 2,
+                        3: 2
+                    }
+                },
                 maxLevel: 3,
+                targetList: {
+                    1: 2,
+                    2: 2,
+                    3: 3
+                },
                 requires: {
-                    1: {action: ["withdraw"]},
-                    2: {},
+                    1: {vitality: 10, level: 3, action: ["withdraw"]},
+                    2: {level: 4},
                     3: {}
+                },
+                cooldownList: {
+                    1: 1,
+                    2: 2,
+                    3: 2
+                },
+                mpList: {
+                    1: 8,
+                    2: 35,
+                    3: 65
+                },speedList: {
+                    1: 5,
+                    2: 5,
+                    3: 5
                 },
             },
             defup:{
                 name: "Defense Up",
                 icon: "defup",
-                description: 'Grants allies a buff for defense.',
-                maxLevel: 1,
+                description: 'Grants allies a buff for +{DEFENSE} defense and +{MDEFENSE} magic defense.',
+                skillObj: {
+                    DEFENSE: {
+                        name: "Defense",
+                        1: 20,
+                        2: 20,
+                        3: 30
+                    },
+                    MDEFENSE: {
+                        name: "Magic Defense",
+                        1: 15,
+                        2: 10,
+                        3: 15
+                    },
+                    DURATION: {
+                        name: "Duration",
+                        1: 3,
+                        2: 3,
+                        3: 3
+                    }
+                },
+                maxLevel: 3,
+                friendly: true,
+                auto: true,
                 requires: {
-                    1: {action: ["bluebonecrusher", "redbonecrusher"]}
+                    1: {level: 5, action: ["bluebonecrusher", "redbonecrusher"]},
+                    2: {level: 10},
+                    3: {}
+                },
+                cooldownList: {
+                    1: 4,
+                    2: 4,
+                    3: 4
+                },
+                mpList: {
+                    1: 5,
+                    2: 15,
+                    3: 35
+                },speedList: {
+                    1: 2,
+                    2: 2,
+                    3: 2
                 },
             },
             reflect:{
                 name: "Reflection",
                 icon: "reflect",
-                description: 'Reflect 120% damage back to all enemies targetting you this turn.',
+                auto: true,
+                description: 'Reflect {REFLECTION}% damage back to all enemies targetting you this turn.',
+                skillObj: {
+                    REFLECTION: {
+                        name: "Reflected Damage",
+                        percent: true,
+                        1: 50,
+                        2: 90,
+                        3: 120
+                    },
+                },
                 requires: {
-                    1: {action: ["defup"], level: 20},
+                    1: {action: ["defup"], level: 10},
                     2: {},
                     3: {}
                 },
-                maxLevel: 3
+                maxLevel: 3,
+                cooldownList: {
+                    1: 4,
+                    2: 4,
+                    3: 4
+                },speedList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
             },
             protection:{
                 name: "Protection",
                 icon: "protect",
-                description: 'Choose allies to receive their damage this turn with a 25% damage reduction.',
-                requires: {
-                    1: {action: ["defup"], level: 20},
-                    2: {},
-                    3: {}
+                description: 'Choose allies to receive their damage this turn with a {REDUCTION}% damage reduction.',
+                skillObj: {
+                    REDUCTION: {
+                        name: "Reduction",
+                        percent: true,
+                        1: 0,
+                        2: 25
+                    },
                 },
-                maxLevel: 3
+                friendly: true,
+                targetList: {
+                    1: 10,
+                    2: 10
+                },
+                noTargetSelf: true,
+                requires: {
+                    1: {action: ["defup"], level: 10},
+                    2: {},
+                },
+                maxLevel: 2,
+                cooldownList: {
+                    1: 3,
+                    2: 2
+                },
+                speedList: {
+                    1: 0,
+                    2: 0,
+                    3: 0
+                },
             },
             absorption:{
                 name: "Absorption",
                 icon: "absorption",
-                description: 'Stores 5 attacks then deals 75% of the damage stored to a target.',
+                description: 'Stores {ATTACKS_STORED} attacks then deals 75% of the damage stored to a target.',
+                skillObj: {
+                    ATTACKS_STORED: {
+                        name: "Attacks Stored",
+                        1: 5,
+                        2: 7
+                    },
+                },
+                auto: true,
                 requires: {
                     1: {action: ["reflect", "protection"]}
                 },
-                maxLevel: 1
+                maxLevel: 2,
+                cooldownList: {
+                    1: 2,
+                    2: 2
+                },speedList: {
+                    1: 4,
+                    2: 4,
+                    3: 4
+                },
             },
             chargeattack:{
                 name: "Charge Slash",
                 icon: "chargeattack",
-                description: 'After a turn, deals an attack to a target.',
+                description: 'After a turn, deals {BASE}(+{STRENGTH}%) physical attack to a target.',
+                skillObj: {
+                    BASE: {
+                        name: "Base Damage",
+                        1: 35,
+                        2: 45,
+                        3: 55
+                    },
+                    STRENGTH: {
+                        name: "Strength",
+                        percent: true,
+                        1: 100,
+                        2: 120,
+                        3: 150
+                    }
+                },
+                targetList: {
+                    1:1,
+                    2:1,
+                    3:1
+                },
                 requires: {
                     1: {action: ["absorption"]},
                     2: {},
                     3: {}
                 },
-                maxLevel: 3
+                maxLevel: 3,
+                cooldownList: {
+                    1: 2,
+                    2: 2,
+                    3: 2
+                },speedList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
             },
             chargeblast:{
                 name: "Charge Blast",
                 icon: "chargeblast",
-                description: 'After a turn, deals a blast to multiple targets.',
+                description: 'After a turn, deals {BASE}(+{INTELLIGENCE}%) to multiple targets.',
+                skillObj: {
+                    BASE: {
+                        name: "Base Damage",
+                        1: 15,
+                        2: 25,
+                        3: 35
+                    },
+                    INTELLIGENCE: {
+                        name: "Intelligence",
+                        percent: true,
+                        1: 50,
+                        2: 75,
+                        3: 100
+                    }
+                },
+                targetList: {
+                    1: 2,
+                    2: 2,
+                    3: 3
+                },
                 requires: {
                     1: {action: ["absorption"]},
                     2: {},
                     3: {}
                 },
-                maxLevel: 3
+                maxLevel: 3,
+                cooldownList: {
+                    1: 2,
+                    2: 2,
+                    3: 2
+                },speedList: {
+                    1: 3,
+                    2: 3,
+                    3: 3
+                },
             },
             powersurge:{
                 name: "Power Surge",
                 icon: "powersurge",
-                description: 'Deal 20% of your current health to yourself, then to an enemy.',
+                targetList: {
+                    1: 1,
+                    2: 1,
+                    3: 1
+                },
+                description: 'Deal {HP_PERCENT}% of your current health to yourself, then to an enemy.',
+                skillObj: {
+                    HP_PERCENT: {
+                        name: "Hp Percent",
+                        percent: true,
+                        1: 10,
+                        2: 15,
+                        3: 25
+                    }
+                },
                 requires: {
                     1: {action: ["chargeattack", "chargeblast"]},
                     2: {},
                     3: {}
                 },
-                maxLevel: 3
+                maxLevel: 3,
+                cooldownList: {
+                    1: 3,
+                    2: 3,
+                    3: 2
+                },speedList: {
+                    1: 2,
+                    2: 2,
+                    3: 2
+                },
             }
         },
         berserker: {
@@ -140,7 +436,7 @@ window.classSkills = {
                 description: "Grants all teammates and self a buff that increases your attack by 50%.",
                 maxLevel: 2,
                 requires: {
-                    1: {level: 2},
+                    1: {level: 2, strength: 5},
                     2: {level: 5, strength: 10, vitality: 10}
                 }
             },
@@ -247,7 +543,7 @@ window.classSkills = {
                 auto: true,
                 maxLevel: 3,
                 requires: {
-                    1: {level: 2},
+                    1: {level: 2, strength: 3, vitality: 3},
                     2: {level: 5, strength: 10, vitality: 10},
                     3: {level: 10, strength: 15, vitality: 15}
                 }
@@ -361,18 +657,29 @@ console.log(classSkills)
 
 
 window.Actions = {
-    punchAction: {
+    punch: {
         name: "Punch",
         icon: "punch",
-        skillName: "punch",
-        targetAmount: 1,
-        description: 'A basic attack that deals damage.',
-        damageFunction: combatant => Math.round(combatant.strength / 5) + 5
+        description: "An basic attack that deals {BASE} physical damage.",
+        skillObj: {
+            BASE: {
+                name: "Base",
+                1: 5
+            },
+            STRENGTH: {
+                name: "Strength",
+                1: 3
+            }
+        },
+        maxLevel: 1,
+        targetList: {
+            1: 1
+        },
+        description: 'A basic attack that deals damage.'
     },
-    arrowStormAction: {
+    arrowStorm: {
         name: "Arrow Storm",
         icon: "arrowstorm",
-        skillName: "arrowStorm",
         cooldown: 1,
         mpCost: 3,
         targetAmount: 3,
@@ -380,18 +687,16 @@ window.Actions = {
         description: `Rains 3-4 arrows randomly on your enemies.`,
         damageFunction: combatant => Math.max(1, combatant.level + Math.round(combatant.agility / 5))
     },
-    slashAction: {
+    slash: {
         name: "Slash",
-        skillName: "slash",
         targetAmount: 1,
         cooldown: 3,
         icon: "slash",
         description: 'A Powerful strike of a sword.',
         damageFunction: combatant => Math.max(1, combatant.level + Math.round(combatant.strength / 2))
     },
-    roarAction: {
+    roar: {
         name: "Roar",
-        skillName: "roar",
         targetAmount: 3,
         friendly: true,
         duration: 2,
@@ -401,26 +706,39 @@ window.Actions = {
         auto: true,
         description: "Grants all teammates and self a buff that increases your attack by 50%."
     },
-    healAction: {
+    heal: {
         name: "Heal",
-        skillName: "heal",
         targetAmount: 1,
         friendly: true,
         icon: "heal"
     },
-    reviveAction: {
+    revive: {
         name: "Revive",
-        skillName: "revive",
         targetAmount: 1,
         friendly: true,
         targetDead: true
     }
 }
 
+Object.keys(Actions).forEach(action=>{
+    window.Actions[action].skillName = action
+    window.Actions[action].typeName = "basic"
+    window.Actions[action].className = "basic"
+})
+
 window.ActionClasses = {
     punch: (config, battle)=>new PunchAction(config, battle),
     arrowStorm: (config, battle)=>new ArrowStormAction(config, battle),
     slash: (config, battle)=>new SlashAction(config, battle),
-    roar: (config, battle)=>new RoarAction(config, battle)
-
+    roar: (config, battle)=>new RoarAction(config, battle),
+    absorption: (config, battle)=>new AbsorptionAction(config, battle),
+    bluebonecrusher: (config, battle)=>new BlueboneCrusherAction(config, battle),
+    chargeattack: (config, battle)=>new ChargeAttackAction(config, battle),
+    chargeblast: (config, battle)=>new ChargeBlastAction(config, battle),
+    defup: (config, battle)=>new DefupAction(config, battle),
+    powersurge: (config, battle)=>new PowersurgeAction(config, battle),
+    protection: (config, battle)=>new ProtectionAction(config, battle),
+    redbonecrusher: (config, battle)=>new RedboneCrusherAction(config, battle),
+    reflect: (config, battle)=>new ReflectAction(config, battle),
+    withdraw: (config, battle)=>new WithdrawAction(config, battle),
 }

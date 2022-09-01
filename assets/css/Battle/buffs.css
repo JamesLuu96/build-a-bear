@@ -14,14 +14,14 @@
     justify-content: flex-end;
     width: 10px;
     height: 60px;
-    right: -11px;
+    right: -13px;
     bottom: 0;
     left: auto;
 }
 
 .Battle .bear-container[data-combatant="4"] .buffs{
     right: auto;
-    left: -11px;
+    left: -13px;
 }
 
 
@@ -54,11 +54,38 @@
 
 .Battle .enraged-buff{
     filter: none;
-    animation: fadeInBuff 1s;
+    animation: enragedBuff 1s;
     opacity: 1;
 }
 
-@keyframes fadeInBuff {
+.Battle .defup-buff{
+    filter: none;
+    animation: defupBuff 1s;
+    opacity: 1;
+    color: #ddd162
+}
+
+.Battle .protection-buff{
+    filter: none;
+    animation: protectionBuff 1s;
+    opacity: 1;
+    color: #e2e612
+}
+
+@keyframes protectionBuff {
+    0% {opacity: 0; filter: invert(72%) sepia(62%) saturate(1017%) hue-rotate(14deg) brightness(118%) contrast(86%);}
+    50% {opacity: 1; filter: invert(72%) sepia(62%) saturate(1017%) hue-rotate(14deg) brightness(118%) contrast(86%);}
+    0% {opacity: 1; filter: none}
+}
+
+@keyframes defupBuff {
+    0% {opacity: 0; filter: invert(43%) sepia(93%) saturate(867%) hue-rotate(212deg) brightness(99%) contrast(82%);}
+    50% {opacity: 1; filter: invert(43%) sepia(93%) saturate(867%) hue-rotate(212deg) brightness(99%) contrast(82%);}
+    0% {opacity: 1; filter: none}
+}
+
+
+@keyframes enragedBuff {
     0% {opacity: 0; filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%);}
     50% {opacity: 1; filter: invert(94%) sepia(95%) saturate(2175%) hue-rotate(347deg) brightness(105%) contrast(98%);}
     0% {opacity: 1; filter: none}

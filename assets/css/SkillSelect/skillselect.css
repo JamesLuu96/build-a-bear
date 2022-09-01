@@ -114,3 +114,9 @@
     bottom: 0;
     right: 0px;
 }
+
+.SkillSelect .learn {
+    cursor: pointer;
+    padding: 1px;
+    
+}

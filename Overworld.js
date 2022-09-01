@@ -6,9 +6,9 @@ class Overworld {
     }
 
     init(){
-        // const battle = new Battle()
-        // battle.init(this.element)
-        const skillSelect = new SkillSelect()
-        skillSelect.init(this.element)
+        const battle = new Battle()
+        battle.init(this.element)
+        // const skillSelect = new SkillSelect()
+        // skillSelect.init(this.element)
     }
 }

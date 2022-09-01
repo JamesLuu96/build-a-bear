@@ -7,11 +7,15 @@ class BattleEvent {
 
     async movesMenu(resolve){
       const {currentPlayer, players, enemies} = this.event
+      if(currentPlayer.chargingSkill){
+        resolve({caster: currentPlayer, target: currentPlayer.chargingSkill.target, action: currentPlayer.chargingSkill.action})
+        return
+      }
       if(currentPlayer.isCPUControlled){
-        console.log(currentPlayer.actions[0].caster.mp)
         const availableActions = currentPlayer.actions.filter(x=>x.enoughMana() && !x.onCooldown())
-        if(!availableActions){
-          resolve({caster: currentPlayer})
+        if(!availableActions.length){
+          resolve({caster: currentPlayer, action: {name: "pass", speed: -1}})
+          return
         }
         const chosenAction = availableActions[Math.floor(Math.random() * availableActions.length)]
         let filteredTargets;
@@ -20,8 +24,8 @@ class BattleEvent {
         }else{
           filteredTargets = enemies.filter(e=> e.hp > 0)
         }
-        if(chosenAction.targetAmount < filteredTargets.length){
-          const diff = filteredTargets.length - chosenAction.targetAmount
+        if(chosenAction.targetList[chosenAction.level] < filteredTargets.length){
+          const diff = filteredTargets.length - chosenAction.targetList[chosenAction.level]
           for(let i = 0; i < diff; i++){
             const random = Math.floor(Math.random() * filteredTargets.length)
             filteredTargets = filteredTargets.filter((x, i)=>i!==random)
@@ -31,7 +35,6 @@ class BattleEvent {
         resolve({caster: currentPlayer, target: filteredTargets, action: chosenAction})
       }else{
         const response = await this.chooseTargets()
-        console.log(response)
         response.action.chooseTarget(response.target)
         resolve({caster: currentPlayer, target: response.target, action: response.action})
       }
@@ -59,7 +62,7 @@ class BattleEvent {
 
         this.skillEl[i].innerHTML = `
         <div ${currentAction.onCooldown() ? `data-onCooldownFor="${currentAction.cooldownTimer}"` : ''}>
-          <img src="./assets/img/skills/${currentAction.icon}.png" alt="">
+          <img src="./assets/img/skills/${currentAction.className}/${currentAction.icon}.png" alt="">
         </div>
         <p ${(currentAction.mpCost !== 0 && currentAction.mpCost !== undefined) ? `data-mp-cost="${currentAction.mpCost}"` : ''} class="skill-name">${currentAction.name}</p>`
 
@@ -82,18 +85,22 @@ class BattleEvent {
     async displaySkill(chosenAction, players, enemies){
       const selectTargetTitleEl = document.createElement('div')
       selectTargetTitleEl.classList.add('Battle-text')
-      selectTargetTitleEl.textContent = chosenAction.targetAmount === 1 ? `Select 1 target:` : `Select up to ${chosenAction.targetAmount} targets:`
+      if(!chosenAction.auto)selectTargetTitleEl.textContent = chosenAction?.targetList[chosenAction.level] === 1 ? `Select 1 target:` : `Select up to ${chosenAction?.targetList[chosenAction.level]} targets:`
       if(chosenAction.auto){
         selectTargetTitleEl.textContent = `Cast ${chosenAction.name}?`
       }
       this.battle.element.appendChild(selectTargetTitleEl)
       const actionMenuEl = document.createElement('div')
       actionMenuEl.classList.add('action-menu')
+      let description = chosenAction.description
+      Object.keys(chosenAction.skillObj).forEach(key=>{
+        description = description.replace(`{${key}}`, chosenAction.level ? chosenAction.skillObj[key][chosenAction.level] : chosenAction.skillObj[key][1])
+      })
       actionMenuEl.innerHTML = `
       <div class="skills-container skills-select">
         <div>
             <div class="skill">
-                <div class="skill-img"><img src="./assets/img/skills/${chosenAction.icon}.png" alt=""></div>
+                <div class="skill-img"><img src="./assets/img/skills/${chosenAction.className}/${chosenAction.icon}.png" alt=""></div>
             </div>
         </div>
         <div class="skill-select-organizer">
@@ -113,11 +120,10 @@ class BattleEvent {
                     </div>` : ""}
                     <div class="skill-select-title">
                         <h1>Target:</h1>
-                        <p>${chosenAction.auto ? 'Auto' : chosenAction.targetAmount}</p>
+                        <p>${chosenAction.auto ? 'Auto' : (chosenAction.level ? chosenAction.targetList[chosenAction.level] : chosenAction.targetList[1])}</p>
                     </div>
                 </div>
                 ${
-                  chosenAction.cooldown || chosenAction.mpCost ?
                   `<div>
                     ${chosenAction.cooldown ? `<div class="skill-select-title">
                         <h1>Cooldown:</h1>
@@ -131,12 +137,16 @@ class BattleEvent {
                         <h1>Duration:</h1>
                         <p>${chosenAction.duration} turn${chosenAction.duration > 1 ? "s":""}</p>
                     </div>` : ""}
-                  </div>` : ''
+                    ${`<div class="skill-select-title">
+                        <h1>Speed:</h1>
+                        <p>${chosenAction.speed}</p>
+                    </div>`}
+                  </div>`
                 }
             </div>
             <div class="skill-select-desc">
                 <h1>Description:</h1>
-                <p>${chosenAction.description}</p>
+                <p>${description}</p>
             </div>
             <div class="skill-select-button-container">
                 <button class="back-button">Back</button>
@@ -148,7 +158,8 @@ class BattleEvent {
       const backButtonEl = actionMenuEl.querySelector('.skill-select-button-container .back-button')
       const confirmButtonEl = actionMenuEl.querySelector('.skill-select-button-container .confirm-button')
       this.battle.element.appendChild(actionMenuEl)
-      let desiredTargetLength = chosenAction.targetAmount
+      let desiredTargetLength;
+      if(!chosenAction.auto)desiredTargetLength = chosenAction.targetList[chosenAction.level]
       let targets = []
       let chosenTargets = []
       if(!chosenAction.auto){
@@ -221,6 +232,11 @@ class BattleEvent {
     }
 
     async startMove(resolve){
+      // console.log()
+      if(this.event.action.name === "pass"){
+        resolve()
+        return
+      }
       await this.event.action.startAction(resolve)
 
     }

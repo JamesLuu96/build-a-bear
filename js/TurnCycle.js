@@ -2,6 +2,8 @@ class TurnCycle {
     constructor({ battle, onNewEvent }) {
       this.battle = battle;
       this.onNewEvent = onNewEvent;
+      this.round = 1
+      // this.startCooldowns()
       // this.allyTeam = "players"
       // this.enemyTeam = "enemies"
     }
@@ -10,7 +12,8 @@ class TurnCycle {
       const combatants = this.battle.combatants
       const alivePlayers = combatants.players.filter(x=>x.hp)
       const aliveEnemies = combatants.enemies.filter(x=>x.hp)
-      const movesArr = []
+      let movesArr = []
+      
       for(let i = 0; i < alivePlayers.length; i++){
         const currentPlayer = alivePlayers[i]
         const players = combatants.players
@@ -21,7 +24,9 @@ class TurnCycle {
           players,
           enemies
         })
-        movesArr.push(submission)
+        if(submission){
+          movesArr.push(submission)
+        }
       }
 
       for(let i = 0; i < aliveEnemies.length; i++){
@@ -34,10 +39,20 @@ class TurnCycle {
           players,
           enemies
         })
-        movesArr.push(submission)
+        if(submission){
+          movesArr.push(submission)
+        }
       }
 
-      // console.log(movesArr)
+      // movesArr.forEach(move=>{
+      //   console.log(move.action.speed)
+      // })
+      console.log(movesArr.map(move=>move.action.speed).sort((a,b)=>a-b))
+      movesArr = movesArr.sort((a,b)=>{
+        return a.action.speed - b.action.speed
+      })
+      
+
       for (let i = 0; i < movesArr.length; i++) {
         const event = {
           type: "startMove",
@@ -49,18 +64,63 @@ class TurnCycle {
         }
 
         const {caster} = movesArr[i]
-        Object.keys(caster.status).forEach(async s=>{
-          console.log(s)
-          if(s === 'burn'){
+        Object.values(caster.status).forEach(async s=>{
+          if(s.name === 'burn'){
             await caster.startDamage({damage: Math.floor(Math.random() * 5), color: "red"})
           }
-          if(caster.status[s].persistent){
+          if(caster.status[s.name].persistent){
             return
           }
           caster.decrementStatus(s)
         })
       }
 
+      this.regenMana()
+      this.reduceCooldowns()
+  
+      if(!this.getWinningTeam()){
+        this.round++
+        return this.turn()
+      }else{
+        return this.getWinningTeam()
+      }
+      // this.turn();
+    }
+
+    regenMana(){
+      for(let i = 0; i < this.battle.combatants.players.length; i++){
+        const player = this.battle.combatants.players[i]
+        if(player.isAlive()){
+          player.gainMana(player.mpRegen + 1)
+        }
+      }
+
+      for(let i = 0; i < this.battle.combatants.enemies.length; i++){
+        const enemy = this.battle.combatants.enemies[i]
+        if(enemy.isAlive()){
+          enemy.gainMana(enemy.mpRegen + 1)
+        }
+      }
+    }
+
+    startCooldowns(){
+      for(let i = 0; i < this.battle.combatants.players.length; i++){
+        const player = this.battle.combatants.players[i]
+        for(let j = 0; j < player.actions.length; j++){
+          player.actions[j].startCooldown(true)
+        }
+        
+      }
+
+      for(let i = 0; i < this.battle.combatants.enemies.length; i++){
+        const enemy = this.battle.combatants.enemies[i]
+        for(let j = 0; j < enemy.actions.length; j++){
+          enemy.actions[j].startCooldown(true)
+        }
+      }
+    }
+
+    reduceCooldowns(){
       for(let i = 0; i < this.battle.combatants.players.length; i++){
         const player = this.battle.combatants.players[i]
         for(let j = 0; j < player.actions.length; j++){
@@ -75,13 +135,6 @@ class TurnCycle {
           enemy.actions[j].tickCooldown()
         }
       }
-  
-      if(!this.getWinningTeam()){
-        return this.turn()
-      }else{
-        return this.getWinningTeam()
-      }
-      // this.turn();
     }
   
     nextTurn() {
@@ -120,11 +173,14 @@ class TurnCycle {
             return a + (b.xpGainedFromWinning * diff) 
           },0)
           // console.log(`${player.name} + ${amountXp}`)
-          await player.giveXp(amountXp / players.length)
+          let xp = amountXp / players.length
+          if(players.length < enemies.length){
+            const diff = enemies.length - players.length
+            xp = xp * (1.25 + (diff * .25))
+          }
+          await player.giveXp(xp)
           resolve()
-        }))).then(()=>{
-          // console.log(players[0].xp, players[0].maxXp)
-        })
+        })))
       }
     }
   
