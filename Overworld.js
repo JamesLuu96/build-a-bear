@@ -1,6 +1,7 @@
 class Overworld {
     constructor(config){
         this.element = config.element
+        this.socket = config.socket
         this.canvas = this.element.querySelector('.game-canvas')
         this.ctx = this.canvas.getContext("2d")
     }

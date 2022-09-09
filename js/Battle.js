@@ -6,9 +6,9 @@ class Battle {
             level: 5,
             name: "Tony",
             vitality: 10,
-            strength: 10,
+            strength: 0,
             agility: 0,
-            intelligence: 5,
+            intelligence: 0,
             crit: 0,
             isCPUControlled: false,
             actions: [...Object.values(classSkills.power.crusader)],
@@ -86,7 +86,7 @@ class Battle {
           }, this),
           new Combatant({
             level: 5,
-            name: "Justin",
+            name: "Alex",
             // hp: 2,
             vitality: 0,
             strength: 0,
@@ -96,7 +96,7 @@ class Battle {
             actions: [{...Actions.punchAction}],
             actions: [{...Actions.punch},],
             isCPUControlled: true,
-            characterSprite: new Sprite({hat: 26, base: 2, eyes: 14, clothes: 23, mouth: 10})
+            characterSprite: new Sprite({hat: 21, base: 3, eyes: 12, clothes: 13, mouth: 1})
           }, this),
           // new Combatant({
           //   level: 12,

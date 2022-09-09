@@ -1,12 +1,24 @@
 {
   "name": "beargladiators",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesLuu96/build-a-bear.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JamesLuu96/build-a-bear/issues"
+  },
+  "homepage": "https://github.com/JamesLuu96/build-a-bear#readme",
+  "description": "",
+  "dependencies": {
+    "socket.io": "^4.5.2",
+    "socket.io-client": "^4.5.2"
+  }
 }
